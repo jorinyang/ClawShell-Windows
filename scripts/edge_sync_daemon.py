@@ -72,8 +72,42 @@ class CloudClient:
     def push_events(self, events: list) -> dict:
         return self._req("POST", "/api/v1/events/batch", {"events": events})
 
+    def register_edge(self, capabilities: list = None, skills: list = None) -> dict:
+        """Active registration with capability declaration"""
+        return self._req("POST", "/api/v1/health/report", {
+            "node_id": NODE_ID,
+            "node_name": socket.gethostname(),
+            "hostname": socket.gethostname(),
+            "version": "1.1.0",
+            "capabilities": capabilities or ["eventbus", "mcp_bridge", "health", "self_repair"],
+            "skills": skills or [],
+            "timestamp": datetime.now().isoformat(),
+        })
+
     def pull_tasks(self) -> dict:
         return self._req("GET", "/api/v1/tasks/?status=pending")
+
+    def claim_task(self, task_id: str) -> dict:
+        return self._req("PUT", f"/api/v1/tasks/{task_id}", {
+            "status": "claimed",
+            "claimed_by": NODE_ID,
+        })
+
+    def complete_task(self, task_id: str, result: dict = None) -> dict:
+        return self._req("PUT", f"/api/v1/tasks/{task_id}", {
+            "status": "completed",
+            "result": result or {},
+        })
+
+    def search_skills(self, query: str = "") -> dict:
+        return self._req("GET", f"/api/v1/skills/?q={query}")
+
+    def publish_skill(self, name: str, content: str, tags: list = None) -> dict:
+        return self._req("POST", "/api/v1/skills/", {
+            "name": name, "content": content,
+            "tags": tags or [],
+            "author": NODE_ID,
+        })
 
     def report_health(self, report: dict) -> dict:
         return self._req("POST", "/api/v1/health/report", report)
@@ -209,6 +243,16 @@ class EdgeSyncDaemon:
         signal.signal(signal.SIGINT, lambda s, f: self.stop())
         signal.signal(signal.SIGTERM, lambda s, f: self.stop())
 
+        # Active registration on startup
+        try:
+            result = self.cloud.register_edge(
+                capabilities=["eventbus", "mcp_bridge", "health", "self_repair", "obsidian"],
+                skills=["clawshell-edge"]
+            )
+            logger.info(f"Registered with Cloud: {result.get('status', 'unknown')}")
+        except Exception as e:
+            logger.warning(f"Registration failed (Cloud may be offline): {e}")
+
         while self.running:
             try:
                 self._sync_cycle()
@@ -230,13 +274,33 @@ class EdgeSyncDaemon:
             self.stats["events_synced"] += synced
             logger.info(f"Synced {synced} events, {self.queue.size()} queued")
 
-        # 3. Pull remote tasks
-        tasks = self.cloud.pull_tasks()
-        if "tasks" in tasks and tasks["tasks"]:
-            self.stats["tasks_pulled"] += len(tasks["tasks"])
-            logger.info(f"Pulled {len(tasks['tasks'])} pending tasks")
+        # 3. Pull & auto-claim open tasks from Global Task Board
+        try:
+            tasks = self.cloud.pull_tasks()
+            if "tasks" in tasks and tasks["tasks"]:
+                self.stats["tasks_pulled"] += len(tasks["tasks"])
+                # Auto-claim first available task matching our capabilities
+                for task in tasks["tasks"]:
+                    if task.get("status") == "open":
+                        claimed = self.cloud.claim_task(task["task_id"])
+                        if "error" not in claimed:
+                            logger.info(f"Claimed task: {task.get('title', task['task_id'])}")
+                            break
+        except Exception as e:
+            pass  # Cloud may be offline
 
-        # 4. Health report (every 10 cycles ≈ 50s)
+        # 4. Discover new skills from Skill Market
+        try:
+            skills = self.cloud.search_skills()
+            if "skills" in skills:
+                new_count = len([s for s in skills.get("skills", []) 
+                                if s.get("author") != NODE_ID])
+                if new_count > 0:
+                    logger.info(f"Discovered {new_count} skills from Cloud Market")
+        except:
+            pass
+
+        # 5. Health report (every 10 cycles ≈ 50s)
         if self.stats["cycles"] % 10 == 0:
             self.cloud.report_health(self.health.get_report())
             self.stats["health_reports"] += 1
