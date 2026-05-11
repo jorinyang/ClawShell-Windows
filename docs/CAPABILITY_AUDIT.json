@@ -1,0 +1,139 @@
+{
+  "title": "ClawShell 2.0 能力匹配度评估",
+  "architecture": "一云多端云边协同分布式神经系统",
+  "date": "2026-05-12",
+  "scores": {
+    "cloud_hub_avg": "68%",
+    "edge_brain_avg": "82%",
+    "overall": "75%"
+  },
+  "cloud_hub": {
+    "1_架构规划": {
+      "match": 60,
+      "status": "partial",
+      "note": "基础设施就绪，缺主动规划Agent"
+    },
+    "2_深度思考洞察分析": {
+      "match": 85,
+      "status": "implemented",
+      "note": "Hermes协同完善，依赖端侧Hermes"
+    },
+    "3_复盘总结": {
+      "match": 50,
+      "status": "partial",
+      "note": "数据采集有，缺主动复盘闭环"
+    },
+    "4_整理优化": {
+      "match": 75,
+      "status": "implemented",
+      "note": "SkillMarket+Genome完整，缺自动提炼管道"
+    },
+    "5_成果广播": {
+      "match": 80,
+      "status": "implemented",
+      "note": "广播基础设施完整，缺自动广播策略"
+    },
+    "6_终端管理": {
+      "match": 85,
+      "status": "implemented",
+      "note": "注册/心跳/能力声明/负载均衡完整"
+    },
+    "7_共识信息部署云端": {
+      "match": 70,
+      "status": "implemented",
+      "note": "配置就绪，尚未实际部署验证"
+    },
+    "8_自我成长迭代": {
+      "match": 20,
+      "status": "missing",
+      "note": "Genome基础有，缺自进化闭环 ⚠️"
+    },
+    "9_洞察广播到终端": {
+      "match": 75,
+      "status": "implemented",
+      "note": "Pull模式完整，Push未深度集成"
+    },
+    "10_一端成长多端共进": {
+      "match": 40,
+      "status": "partial",
+      "note": "技能共享有，洞察/经验共享缺 ⚠️"
+    },
+    "11_自组织集群协作": {
+      "match": 80,
+      "status": "implemented",
+      "note": "L3+L4完整，Swarm/CapRegistry就绪"
+    },
+    "12_仓库版本控制": {
+      "match": 90,
+      "status": "implemented",
+      "note": "GitHub + CI/CD完整"
+    }
+  },
+  "edge_brain": {
+    "1_安装配置": {
+      "match": 85,
+      "status": "implemented",
+      "note": "install.sh/ps1 + ConfigWizard"
+    },
+    "2_自适应多架构": {
+      "match": 90,
+      "status": "implemented",
+      "note": "WSL/Win/macOS/Linux + 3框架检测"
+    },
+    "3_接入配置": {
+      "match": 85,
+      "status": "implemented",
+      "note": "MCP注册+cron+workspace写入"
+    },
+    "4_调用脚本": {
+      "match": 80,
+      "status": "implemented",
+      "note": "bin/clawshell + clawsync"
+    },
+    "5_云枢注册": {
+      "match": 80,
+      "status": "implemented",
+      "note": "register_edge + 5s心跳"
+    },
+    "6_嗅探加载插件": {
+      "match": 85,
+      "status": "implemented",
+      "note": "10组件Ecosystem Installer"
+    },
+    "7_独立插件生态": {
+      "match": 80,
+      "status": "implemented",
+      "note": "独立MCP Bridge + Node ID"
+    },
+    "8_协同Agent调度": {
+      "match": 80,
+      "status": "implemented",
+      "note": "pull→claim→complete"
+    },
+    "9_云枢共享": {
+      "match": 75,
+      "status": "implemented",
+      "note": "任务/技能/知识/记忆/洞察全覆盖"
+    },
+    "10_行动前拉取参考": {
+      "match": 70,
+      "status": "implemented",
+      "note": "机制存在，需Agent集成读取insights"
+    },
+    "11_离线自治": {
+      "match": 85,
+      "status": "implemented",
+      "note": "OfflineQueue + 本地降级"
+    },
+    "12_自感知自适应": {
+      "match": 90,
+      "status": "implemented",
+      "note": "L1(7Monitor)+L2(10+组件)完整"
+    },
+    "13_工作流容器管理": {
+      "match": 80,
+      "status": "implemented",
+      "note": "docker-compose + N8N"
+    }
+  }
+}
