@@ -16,7 +16,7 @@ from typing import Dict, List
 
 # ==================== 配置 ====================
 
-WORKSPACE_DIR = Path.home() / ".openclaw/workspace"
+WORKSPACE_DIR = Path.home() / ".real/workspace"
 OUTPUT_DIR = Path.home() / "Documents/Obsidian/OpenClaw/Other/Monthly"
 STATS_FILE = WORKSPACE_DIR / "efficiency-stats.json"
 

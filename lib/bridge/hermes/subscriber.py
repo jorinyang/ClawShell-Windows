@@ -12,8 +12,17 @@ import time
 from pathlib import Path
 from typing import Dict, List, Callable, Optional
 from datetime import datetime
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileModifiedEvent
+
+# watchdog is optional - falls back to polling
+try:
+    from watchdog.observers import Observer
+    from watchdog.events import FileSystemEventHandler, FileModifiedEvent
+    WATCHDOG_AVAILABLE = True
+except ImportError:
+    WATCHDOG_AVAILABLE = False
+    Observer = None
+    FileSystemEventHandler = object  # minimal stub
+    FileModifiedEvent = None
 
 
 class EventBusSubscriber:
@@ -159,8 +168,8 @@ class EventBusSubscriber:
         }
 
 
-class EventBusFileHandler(FileSystemEventHandler):
-    """文件变化处理器"""
+class EventBusFileHandler(FileSystemEventHandler if WATCHDOG_AVAILABLE else object):
+    """文件变化处理器 (需要 watchdog 包)"""
     
     def __init__(self, subscriber: EventBusSubscriber):
         self.subscriber = subscriber

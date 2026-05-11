@@ -11,8 +11,8 @@ from pathlib import Path
 from datetime import datetime
 
 # 路径
-SCRIPT_DIR = Path.home() / ".openclaw/scripts"
-OUTPUT_DIR = Path.home() / ".openclaw"
+SCRIPT_DIR = Path.home() / ".real/scripts"
+OUTPUT_DIR = Path.home() / ".real"
 LOG_DIR = OUTPUT_DIR / "logs"
 
 # ==================== 测试用例 ====================

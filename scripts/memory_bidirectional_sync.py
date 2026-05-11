@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Set
 
 # 配置
-OPENCLAW_DIR = Path.home() / ".openclaw"
+OPENCLAW_DIR = Path.home() / ".real"
 MEMORY_DIR = OPENCLAW_DIR / "workspace" / "memory"
 BRIDGE_DIR = OPENCLAW_DIR / "shared" / "memory_bridge"
 OPENCLAW_TO_HERMES = BRIDGE_DIR / "openclaw_to_hermes"

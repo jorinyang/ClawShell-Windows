@@ -55,7 +55,7 @@ class WuKongMorningNews:
 
     def _load_dingtalk_config(self) -> Optional[str]:
         """加载钉钉配置"""
-        config_path = Path.home() / ".openclaw" / "plugins" / "cicd-deploy" / "config" / "config.json"
+        config_path = Path.home() / ".real" / "plugins" / "cicd-deploy" / "config" / "config.json"
         
         if config_path.exists():
             try:

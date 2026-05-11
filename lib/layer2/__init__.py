@@ -15,7 +15,7 @@ from pathlib import Path
 # 检查是否有源目录可用
 _source_paths = [
     Path(__file__).parent.parent.parent / "adaptor",  # ../../../adaptor
-    Path.home() / ".openclaw" / "adaptor",
+    Path.home() / ".real" / "adaptor",
 ]
 
 for _sp in _source_paths:
@@ -60,3 +60,7 @@ except ImportError as e:
         "Emergency", "StateCollector", "MLEngine",
         "MarketDiscovery", "ConditionEngine",
     ]
+
+# GPU/CPU accelerator auto-init
+from lib.utils.accelerator import get_accelerator
+_accel = get_accelerator(); _accel.initialize()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-OpenClaw Knowledge Graph Builder - .openclaw目录知识图谱构建器
+OpenClaw Knowledge Graph Builder - .real目录知识图谱构建器
 功能：
-1. 扫描.openclaw目录结构
+1. 扫描.real目录结构
 2. 分析文件间引用关系
 3. 提取关键字和标签
 4. 生成知识图谱
@@ -17,8 +17,8 @@ from collections import defaultdict
 
 # ==================== 配置 ====================
 
-OPENCLAW_DIR = Path.home() / ".openclaw"
-GRAPH_OUTPUT = Path.home() / ".openclaw/workspace/openclaw_knowledge_graph.json"
+OPENCLAW_DIR = Path.home() / ".real"
+GRAPH_OUTPUT = Path.home() / ".real/workspace/openclaw_knowledge_graph.json"
 
 # ==================== 知识图谱构建器 ====================
 
@@ -212,7 +212,7 @@ class OpenClawGraphBuilder:
         
         # 尝试在openclaw目录中查找
         try:
-            potential = OPENCLAW_DIR / ref.split('.openclaw/')[-1]
+            potential = OPENCLAW_DIR / ref.split('.real/')[-1]
             if potential.exists():
                 return str(potential.relative_to(OPENCLAW_DIR))
         except:
@@ -250,7 +250,7 @@ class OpenClawGraphBuilder:
     
     def generate_markdown_report(self, graph):
         """生成Markdown报告"""
-        report = f"""# .openclaw 目录知识图谱
+        report = f"""# .real 目录知识图谱
 
 **生成时间**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
@@ -326,7 +326,7 @@ class OpenClawGraphBuilder:
         
         # 生成报告
         report = self.generate_markdown_report(graph)
-        report_file = Path.home() / ".openclaw/workspace/openclaw_graph_report.md"
+        report_file = Path.home() / ".real/workspace/openclaw_graph_report.md"
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
         

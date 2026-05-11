@@ -20,8 +20,8 @@ from datetime import datetime
 # ==================== 配置 ====================
 
 VAULT_PATH = Path.home() / "Documents/Obsidian/OpenClaw"
-OUTPUT_DIR = Path.home() / ".openclaw/workspace/OpenClaw/.links"
-STATE_FILE = Path.home() / ".openclaw/.link_discover_state.json"
+OUTPUT_DIR = Path.home() / ".real/workspace/OpenClaw/.links"
+STATE_FILE = Path.home() / ".real/.link_discover_state.json"
 
 # 扫描范围
 SCAN_DIRS = ["1_Work", "2_Learn", "3_Research", "4_Life", "Other"]

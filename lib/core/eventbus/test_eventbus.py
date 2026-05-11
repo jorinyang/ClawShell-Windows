@@ -12,7 +12,10 @@ import os
 # 添加父目录到路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from eventbus import EventBus, Event, EventType, Publisher, Subscriber
+from lib.core.eventbus.core import EventBus, get_eventbus
+from lib.core.eventbus.schema import Event, EventType
+from lib.core.eventbus.core import EventBus as Publisher
+from lib.core.eventbus.core import EventBus as Subscriber
 from datetime import datetime
 
 
@@ -136,7 +139,7 @@ def test_subscriber_decorator():
     print("✅ 订阅启动成功")
     
     # 发布测试事件
-    from eventbus.core import get_eventbus
+    # get_eventbus already imported above
     bus = get_eventbus()
     
     event1 = Event(type=EventType.TASK_COMPLETED, source="test")

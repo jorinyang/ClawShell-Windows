@@ -15,9 +15,12 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 from pathlib import Path
 
-# 路径配置
-WORKSPACE = os.path.expanduser("~/.real/workspace")
-SHARED_DIR = os.path.join(WORKSPACE, "shared")
+# 路径配置 (WSL → Windows .real)
+_win_home = Path(os.environ.get("USERPROFILE", str(Path.home()))).drive + os.sep + "Users" + os.sep + os.environ.get("USERNAME", os.environ.get("USER", "Aorus"))
+REAL_BASE = Path(os.environ.get("REAL_BASE", f"/mnt/c/Users/{os.environ.get('USER', 'Aorus')}/.real"))
+WORKSPACE = str(REAL_BASE / "workspace")
+SHARED_DIR = str(REAL_BASE / "workspace" / "shared")
+os.makedirs(SHARED_DIR, exist_ok=True)
 QUEUE_FILE = os.path.join(SHARED_DIR, "task-queue.json")
 MARKET_FILE = os.path.join(SHARED_DIR, "task-market.json")
 AGENT_STATUS_FILE = os.path.join(SHARED_DIR, "agent-status.json")

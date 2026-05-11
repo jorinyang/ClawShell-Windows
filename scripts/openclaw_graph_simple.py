@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 OpenClaw Knowledge Graph - 简化版知识图谱
-分析.openclaw目录下脚本和配置文件的引用关系
+分析.real目录下脚本和配置文件的引用关系
 """
 
 import os
@@ -11,7 +11,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
 
-OPENCLAW_DIR = Path.home() / ".openclaw"
+OPENCLAW_DIR = Path.home() / ".real"
 
 def scan_scripts():
     """扫描关键脚本"""
@@ -110,7 +110,7 @@ def build_graph(scripts):
 def generate_markdown(graph):
     """生成Markdown报告"""
     
-    md = """# .openclaw 目录知识图谱
+    md = """# .real 目录知识图谱
 
 **生成时间**: """ + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + """
 

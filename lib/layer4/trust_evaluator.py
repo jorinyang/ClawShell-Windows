@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 
-from swarm.node_registry import NodeRegistry, NodeStatus
+from lib.layer4.swarm import NodeRegistry, NodeStatus
 
 
 # ============ 数据结构 ============

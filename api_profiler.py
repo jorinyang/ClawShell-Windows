@@ -8,7 +8,7 @@ import traceback
 from pathlib import Path
 
 # ClawShell路径
-CLAWSHELL_PATH = Path(r"C:\Users\Aorus\.ClawShell")
+CLAWSHELL_PATH = Path(os.environ.get("CLAWSHELL_ROOT", str(Path.home() / ".ClawShell")))
 sys.path.insert(0, str(CLAWSHELL_PATH))
 
 def probe_module(module_path: str, module_name: str = None) -> dict:

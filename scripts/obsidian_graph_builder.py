@@ -21,10 +21,10 @@ from typing import Dict, List, Set, Tuple
 # ==================== 配置 ====================
 
 VAULT_PATH = Path.home() / "Documents/Obsidian/OpenClaw"
-GRAPH_DIR = Path.home() / ".openclaw/graphs"
-REPORT_DIR = Path.home() / ".openclaw/reports"
-LOG_DIR = Path.home() / ".openclaw/logs"
-STATE_FILE = Path.home() / ".openclaw/.graph_builder_state.json"
+GRAPH_DIR = Path.home() / ".real/graphs"
+REPORT_DIR = Path.home() / ".real/reports"
+LOG_DIR = Path.home() / ".real/logs"
+STATE_FILE = Path.home() / ".real/.graph_builder_state.json"
 
 # 扫描范围（一级目录）
 SCAN_DIRS = ["1_Work", "2_Learn", "3_Research", "4_Life", "Other"]

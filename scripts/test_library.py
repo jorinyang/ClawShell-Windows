@@ -16,7 +16,7 @@ from typing import Dict, List, Any
 
 # ==================== 配置 ====================
 
-TEST_DATA_DIR = Path.home() / ".openclaw/test_data"
+TEST_DATA_DIR = Path.home() / ".real/test_data"
 CASE_LIBRARY_FILE = TEST_DATA_DIR / "test_cases.json"
 
 # ==================== 测试用例库 ====================

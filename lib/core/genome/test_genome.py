@@ -12,14 +12,7 @@ import os
 # 添加父目录到路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from genome import (
-    GenomeManager,
-    HeritageProtocol,
-    Genome,
-    AgentType,
-    HeritageRecord,
-)
-from genome.schema import KnowledgeEntry, ErrorPattern, SkillState
+from lib.core.genome.manager import GenomeManager
 
 
 def test_genome_creation():

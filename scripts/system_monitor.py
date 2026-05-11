@@ -20,8 +20,8 @@ from typing import Dict, List, Optional
 
 # ==================== 配置 ====================
 
-LOG_DIR = Path.home() / ".openclaw/logs"
-STATE_DIR = Path.home() / ".openclaw/workspace"
+LOG_DIR = Path.home() / ".real/logs"
+STATE_DIR = Path.home() / ".real/workspace"
 
 # 告警阈值
 CPU_THRESHOLD = 80.0  # %

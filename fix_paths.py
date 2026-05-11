@@ -1,103 +1,134 @@
 #!/usr/bin/env python3
 """
-ClawShell 路径修复脚本
-将所有 ~/.real 引用映射到 ~/.real/
-适配悟空的目录结构
+ClawShell Path Fix Script
+Fixes path references in the codebase:
+  1. ~/.openclaw -> ~/.real (migrate to Wukong runtime directory)
+  2. C:\\Users\\* hardcoded -> dynamic path detection (cross-platform)
+
+Usage:
+  python3 fix_paths.py              # Scan and fix all files under .ClawShell/
+  python3 fix_paths.py --dry-run    # Preview only, no actual modification
+  python3 fix_paths.py --target <dir>  # Specify target directory
 """
 
 import os
 import re
 from pathlib import Path
 
-# 路径映射规则
-# ~/.real/ -> ~/.real/ (悟空主目录)
-PATH_MAPPINGS = {
-    "~/.real/": "~/.real/",
-    "~/.real": "~/.real",
-}
+# Skip directories
+SKIP_PATTERNS = {'.git', '__pycache__', '.pyc', '.venv', 'node_modules', '.pytest_cache'}
 
-# Mac 特定路径 (需要移除或修改)
-MAC_SPECIFIC_PATHS = [
-    "C:\Users\Aorus\.real",
-    "C:\Users\Aorus\.real",
-]
+TEXT_EXTENSIONS = {'.py', '.sh', '.yaml', '.yml', '.json', '.md', '.txt', '.toml', '.cfg', '.ini'}
 
-def should_skip_file(filepath: str) -> bool:
-    """检查文件是否应该跳过"""
-    skip_patterns = ['.git', '__pycache__', '.pyc', '.venv', 'node_modules']
-    return any(p in filepath for p in skip_patterns)
 
-def fix_content(content: str) -> tuple[bool, str]:
-    """修复文件内容中的路径"""
+def should_skip_file(filepath):
+    parts = set(filepath.parts)
+    return bool(parts & SKIP_PATTERNS)
+
+
+def fix_content(content, filepath):
     original = content
     modified = False
-    
-    # 替换 ~/.real -> ~/.real
-    for old, new in PATH_MAPPINGS.items():
+    changes = []
+
+    # Fix 1: .openclaw -> .real (path references in strings)
+    # Match ".openclaw" or '.openclaw' in path contexts
+    count_openclaw = content.count('.openclaw')
+    if count_openclaw > 0:
+        # Only replace in string/path contexts, not variable names
+        # Pattern: preceded by / or " or ' or space
+        new_content = re.sub(
+            r'(?<=["\'\s/])\.openclaw(?=["\'\s/])',
+            '.real',
+            content
+        )
+        if new_content != content:
+            changes.append("  Path mapping: .openclaw -> .real")
+            content = new_content
+            modified = True
+
+    # Fix 2: Hardcoded C:\\Users\\Aorus\\.ClawShell -> dynamic
+    # Use simpler string replacement for known patterns
+    replacements = [
+        ('C:\\\\Users\\\\Aorus\\\\.ClawShell', 'os.environ.get("CLAWSHELL_ROOT", str(Path.home() / ".ClawShell"))'),
+        ('C:\\Users\\Aorus\\.ClawShell', 'os.environ.get("CLAWSHELL_ROOT", str(Path.home() / ".ClawShell"))'),
+    ]
+    for old, new in replacements:
         if old in content:
             content = content.replace(old, new)
+            changes.append("  Hardcoded path: C:\\Users\\Aorus\\.ClawShell -> dynamic")
             modified = True
-    
-    # 处理 Mac 特定路径 - 改为注释或移除
-    for mac_path in MAC_SPECIFIC_PATHS:
-        if mac_path in content:
-            # 替换为合理的 Unix 路径或移除
-            content = content.replace(mac_path, str(Path.home() / ".real"))
-            modified = True
-    
-    return modified, content
+            break
 
-def process_file(filepath: Path) -> bool:
-    """处理单个文件"""
-    if should_skip_file(str(filepath)):
+    return modified, content, changes
+
+
+def process_file(filepath, dry_run=False):
+    if should_skip_file(filepath):
         return False
-    
-    # 只处理文本文件
-    text_extensions = {'.py', '.sh', '.yaml', '.yml', '.json', '.md', '.txt', '.toml'}
-    if filepath.suffix not in text_extensions:
+
+    if filepath.suffix not in TEXT_EXTENSIONS:
         return False
-    
+
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             content = f.read()
     except (UnicodeDecodeError, IOError):
         return False
-    
-    modified, new_content = fix_content(content)
-    
-    if modified:
+
+    modified, new_content, changes = fix_content(content, filepath)
+
+    if modified and not dry_run:
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(new_content)
+
+    if modified:
+        try:
+            rel_path = filepath.relative_to(Path.cwd())
+        except ValueError:
+            rel_path = filepath
+        print("  OK %s" % rel_path)
+        for change in changes:
+            print(change)
         return True
-    
+
     return False
 
-def scan_and_fix(root_dir: Path) -> list[tuple[Path, str]]:
-    """扫描并修复目录中的所有文件"""
+
+def scan_and_fix(root_dir, dry_run=False):
     fixed_files = []
-    
-    for filepath in root_dir.rglob('*'):
-        if filepath.is_file() and not should_skip_file(str(filepath)):
-            if process_file(filepath):
-                fixed_files.append((filepath, "路径已修复"))
-    
+    label = '[DRY RUN] ' if dry_run else ''
+    print("\n%sScanning: %s" % (label, root_dir))
+
+    for filepath in sorted(root_dir.rglob('*')):
+        if filepath.is_file():
+            if process_file(filepath, dry_run):
+                fixed_files.append(filepath)
+
     return fixed_files
 
+
 def main():
-    clawshell_dir = Path.home() / ".ClawShell"
-    
-    if not clawshell_dir.exists():
-        print(f"错误: ClawShell目录不存在: {clawshell_dir}")
-        return
-    
-    print(f"开始扫描: {clawshell_dir}")
-    print("=" * 60)
-    
-    fixed = scan_and_fix(clawshell_dir)
-    
-    print(f"\n修复完成! 共修复 {len(fixed)} 个文件:\n")
-    for filepath, status in fixed:
-        print(f"  ✅ {filepath.relative_to(clawshell_dir)}")
+    import argparse
+    parser = argparse.ArgumentParser(description="ClawShell Path Fix Script")
+    parser.add_argument("--dry-run", action="store_true", help="Preview only")
+    parser.add_argument("--target", type=str, help="Target directory (default: ~/.ClawShell)")
+    args = parser.parse_args()
+
+    target = Path(args.target) if args.target else Path.home() / ".ClawShell"
+
+    if not target.exists():
+        print("ERROR: Target directory not found: %s" % target)
+        return 1
+
+    fixed = scan_and_fix(target, dry_run=args.dry_run)
+
+    action = "would fix" if args.dry_run else "fixed"
+    print("\n%s" % ('=' * 60))
+    print("%s %d files" % (action, len(fixed)))
+
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    exit(main())

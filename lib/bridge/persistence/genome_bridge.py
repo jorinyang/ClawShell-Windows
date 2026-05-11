@@ -14,7 +14,7 @@ class GenomeBridge:
     """Genome持久化桥接器"""
     
     def __init__(self, genome_path: Optional[Path] = None):
-        self.genome_path = genome_path or Path.home() / ".openclaw" / "genome"
+        self.genome_path = genome_path or Path.home() / ".real" / "genome"
     
     def save(self, key: str, data: Dict[str, Any]) -> bool:
         """保存知识条目"""

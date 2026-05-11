@@ -88,7 +88,7 @@ class FrameworkDetector:
         """检测单个框架"""
         # 确定目录路径
         if framework_id == 'openclaw':
-            base_dir = self.home_dir / '.openclaw'
+            base_dir = self.home_dir / '.real'
         else:
             base_dir = self.home_dir / f'.{framework_id}'
         

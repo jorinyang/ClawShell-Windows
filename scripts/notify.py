@@ -18,8 +18,8 @@ from typing import Dict, List, Optional
 
 # ==================== 配置 ====================
 
-LOG_DIR = Path.home() / ".openclaw/logs"
-CONFIG_FILE = Path.home() / ".openclaw/workspace/notify_config.json"
+LOG_DIR = Path.home() / ".real/logs"
+CONFIG_FILE = Path.home() / ".real/workspace/notify_config.json"
 
 # ==================== 通知客户端 ====================
 

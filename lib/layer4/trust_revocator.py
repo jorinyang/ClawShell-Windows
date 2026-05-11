@@ -162,4 +162,4 @@ class TrustRevocator:
 
 
 # 导出到NodeStatus
-from swarm.node_registry import NodeStatus
+from lib.layer4.swarm import NodeStatus

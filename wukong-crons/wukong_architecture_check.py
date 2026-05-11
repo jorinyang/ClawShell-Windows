@@ -14,6 +14,7 @@
 """
 
 import sys
+from pathlib import Path
 import os
 import json
 import subprocess
@@ -23,7 +24,7 @@ from typing import Dict, List, Any
 from enum import Enum
 
 # ClawShell 路径
-CLAWSHELL_PATH = r"C:\Users\Aorus\.ClawShell"
+CLAWSHELL_PATH = os.environ.get("CLAWSHELL_ROOT", str(Path.home() / ".ClawShell"))
 sys.path.insert(0, CLAWSHELL_PATH)
 
 # ==================== 数据结构 ====================
@@ -148,7 +149,7 @@ CHECK_ITEMS = {
         ("bridge.external.n8n_client", "N8NClient", "n8n客户端"),
     ],
     "External.OpenClaw": [
-        ("bin.openclaw", "OpenClaw", "OpenClaw CLI"),
+        ("bin.real", "OpenClaw", "OpenClaw CLI"),
     ],
     "External.MemOS": [
         ("memos", "MemOS", "MemOS服务"),

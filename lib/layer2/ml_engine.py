@@ -15,6 +15,16 @@ from datetime import datetime, timedelta
 from collections import defaultdict, deque
 from pathlib import Path
 
+# GPU/CPU accelerator integration
+try:
+    from lib.utils.accelerator import get_accelerator, accelerate_chromadb
+    _accelerator = get_accelerator()
+    _accelerator.initialize()
+    accelerate_chromadb()
+except ImportError:
+    _accelerator = None
+    def accelerate_chromadb(): pass
+
 # ============ 配置 ============
 
 ML_STATE_PATH = Path("~/.real/.ml_state.json").expanduser()

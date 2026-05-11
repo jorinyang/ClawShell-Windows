@@ -9,7 +9,7 @@ import json
 import time
 from typing import Dict, List, Optional
 from datetime import datetime
-from iq_test_questions import IQTestQuestions
+from lib.core.genome.iq_challenge_questions import DeepChallengeIQTest as IQTestQuestions
 
 class HermesEvaluator:
     """

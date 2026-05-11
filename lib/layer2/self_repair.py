@@ -489,9 +489,9 @@ class SelfHealingEngine:
         if components is None:
             # 默认备份关键配置
             components = [
-                str(Path.home() / ".openclaw" / "config"),
-                str(Path.home() / ".openclaw" / "skills"),
-                str(Path.home() / ".openclaw" / "agents"),
+                str(Path.home() / ".real" / "config"),
+                str(Path.home() / ".real" / "skills"),
+                str(Path.home() / ".real" / "agents"),
             ]
         
         name = f"auto_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -597,8 +597,8 @@ class SelfHealingEngine:
     def create_recovery_checkpoint(self, name: str, description: str) -> Checkpoint:
         """创建恢复检查点"""
         components = [
-            str(Path.home() / ".openclaw" / "config"),
-            str(Path.home() / ".openclaw" / "workspace"),
+            str(Path.home() / ".real" / "config"),
+            str(Path.home() / ".real" / "workspace"),
         ]
         return self.checkpoint_manager.create_checkpoint(name, description, components)
     

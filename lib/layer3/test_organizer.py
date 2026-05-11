@@ -12,10 +12,12 @@ import os
 # 添加父目录到路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from organizer import TaskRegistry, TaskMarket, NodeCoordinator, TaskStatus, TaskPriority
-from organizer.registry import Task
-from organizer.market import NodeCapability
-from organizer.coordinator import NodeInfo
+from lib.layer3.task_registry import TaskRegistry
+from lib.layer3.task_market import TaskMarket, TaskPriority, TaskStatus
+from lib.layer3.coordinator import NodeCoordinator
+from lib.layer3.task_market import Task
+from lib.layer4.swarm import NodeRegistry as NodeCapability
+from lib.layer4.swarm import Node as NodeInfo
 
 
 def test_task_registry():

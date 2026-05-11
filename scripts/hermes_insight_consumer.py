@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Dict, Any, Optional
 
 # 配置
-OPENCLAW_DIR = Path.home() / ".openclaw"
+OPENCLAW_DIR = Path.home() / ".real"
 INSIGHTS_DIR = OPENCLAW_DIR / "shared" / "hermes_insights"
 PENDING_DIR = INSIGHTS_DIR / "pending"
 APPLIED_DIR = INSIGHTS_DIR / "applied"

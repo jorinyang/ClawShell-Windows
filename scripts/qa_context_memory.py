@@ -27,16 +27,17 @@ class QAContextMemory:
         self.memos_enabled = self._check_memos()
         
     def _check_memos(self) -> bool:
-        """检查MemOS是否可用"""
+        """检查MemOS是否可用 (新版API)"""
         if not MEMOS_API_KEY or MEMOS_API_KEY == "your-memos-api-key":
             return False
         try:
-            response = requests.get(
-                f"{MEMOS_BASE_URL}/memos",
-                headers={"Authorization": f"Bearer {MEMOS_API_KEY}"},
+            response = requests.post(
+                f"{MEMOS_BASE_URL}/search/memory",
+                headers={"Authorization": f"Bearer {MEMOS_API_KEY}", "Content-Type": "application/json"},
+                json={"user_id": "default", "query": "test", "limit": 1},
                 timeout=5
             )
-            return response.status_code == 200
+            return response.status_code in [200, 201]
         except:
             return False
     
@@ -78,52 +79,58 @@ class QAContextMemory:
         return self.save_context(session_id, context, user_id)
     
     def get_recent_memory(self, user_id: str = "default", hours: int = 24) -> list:
-        """获取最近N小时的记忆"""
+        """获取最近N小时的记忆 (新版API: search/memory)"""
         if not self.memos_enabled:
             return []
         
         try:
-            # 计算时间范围
             from datetime import timedelta
-            cutoff = (datetime.now() - timedelta(hours=hours)).isoformat()
             
-            response = requests.get(
-                f"{MEMOS_BASE_URL}/memos",
-                headers={"Authorization": f"Bearer {MEMOS_API_KEY}"},
-                params={"creator": user_id, "limit": 50},
+            # 使用新版 search/memory API
+            response = requests.post(
+                f"{MEMOS_BASE_URL}/search/memory",
+                headers={"Authorization": f"Bearer {MEMOS_API_KEY}", "Content-Type": "application/json"},
+                json={
+                    "user_id": "default",
+                    "query": "QA conversation question answer",
+                    "limit": 50,
+                    "filters": {
+                        "time_range": {
+                            "from": (datetime.now() - timedelta(hours=hours)).isoformat()
+                        }
+                    }
+                },
                 timeout=10
             )
             
-            if response.status_code == 200:
-                memos = response.json().get("memos", [])
-                recent = []
-                for memo in memos:
-                    created = memo.get("created_ts", 0)
-                    if created > (datetime.now() - timedelta(hours=hours)).timestamp():
-                        # 检查是否与QA相关
-                        content = memo.get("content", "")
-                        if any(kw in content for kw in ["QA:", "问答:", "question:", "answer:"]):
-                            recent.append(memo)
-                return recent
+            if response.status_code in [200, 201]:
+                results = response.json()
+                memos = results.get("memories", []) if isinstance(results, dict) else results
+                return memos
         except Exception as e:
             print(f"加载记忆失败: {e}")
         return []
     
     def search_related_context(self, query: str, user_id: str = "default") -> list:
-        """搜索相关上下文"""
+        """搜索相关上下文 (新版API: search/memory)"""
         if not self.memos_enabled:
             return []
         
         try:
-            response = requests.get(
-                f"{MEMOS_BASE_URL}/memos",
-                headers={"Authorization": f"Bearer {MEMOS_API_KEY}"},
-                params={"creator": user_id, "search": query, "limit": 10},
+            response = requests.post(
+                f"{MEMOS_BASE_URL}/search/memory",
+                headers={"Authorization": f"Bearer {MEMOS_API_KEY}", "Content-Type": "application/json"},
+                json={
+                    "user_id": "default",
+                    "query": query,
+                    "limit": 10
+                },
                 timeout=10
             )
             
-            if response.status_code == 200:
-                return response.json().get("memos", [])
+            if response.status_code in [200, 201]:
+                results = response.json()
+                return results.get("memories", []) if isinstance(results, dict) else results
         except:
             pass
         return []
@@ -162,57 +169,87 @@ class QAContextMemory:
             return json.load(f)
     
     def _save_to_memos(self, session_id: str, context: dict, user_id: str) -> bool:
-        """保存到MemOS"""
+        """保存到MemOS (新版API: add/message)"""
         try:
-            # 构建记忆内容
-            content = f"[QA Session {session_id}]\n"
-            content += f"Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n"
-            
+            # 构建消息数组
+            messages = []
             turns = context.get("turns", [])
             for turn in turns[-10:]:  # 只保存最近10轮
-                role = turn.get("role", "unknown")
-                text = turn.get("content", "")[:200]
-                content += f"- [{role}] {text}\n"
+                role = turn.get("role", "user")
+                if role not in ["user", "assistant", "system"]:
+                    role = "user"
+                text = turn.get("content", "")[:500]
+                messages.append({"role": role, "content": text})
             
-            # 保存到MemOS
+            # 使用新版 add/message API (需要 conversation_id + messages 数组)
             response = requests.post(
-                f"{MEMOS_BASE_URL}/memos",
+                f"{MEMOS_BASE_URL}/add/message",
                 headers={
                     "Authorization": f"Bearer {MEMOS_API_KEY}",
                     "Content-Type": "application/json"
                 },
                 json={
-                    "content": content,
-                    "visibility": "PRIVATE",
-                    "tags": ["QA", "conversation", f"session-{session_id}"]
+                    "user_id": "default",
+                    "conversation_id": f"qa_session_{session_id}",
+                    "messages": messages,
+                    "metadata": {
+                        "type": "QA",
+                        "session_id": session_id,
+                        "tags": ["QA", "conversation", f"session-{session_id}"]
+                    }
                 },
                 timeout=10
             )
             
-            return response.status_code == 200
+            return response.status_code in [200, 201]
         except Exception as e:
             print(f"保存到MemOS失败: {e}")
             return False
     
     def _load_from_memos(self, session_id: str) -> dict:
-        """从MemOS加载"""
+        """从MemOS加载 (新版API: get/message 通过 conversation_id)"""
         try:
-            response = requests.get(
-                f"{MEMOS_BASE_URL}/memos",
-                headers={"Authorization": f"Bearer {MEMOS_API_KEY}"},
-                params={"tag": f"session-{session_id}", "limit": 5},
+            response = requests.post(
+                f"{MEMOS_BASE_URL}/get/message",
+                headers={"Authorization": f"Bearer {MEMOS_API_KEY}", "Content-Type": "application/json"},
+                json={
+                    "user_id": "default",
+                    "conversation_id": f"qa_session_{session_id}"
+                },
                 timeout=10
             )
             
-            if response.status_code == 200:
-                memos = response.json().get("memos", [])
-                if memos:
-                    # 解析最新的记忆
-                    latest = memos[0]
-                    return self._parse_memo_context(latest)
+            if response.status_code in [200, 201]:
+                result = response.json()
+                data = result.get("data", {})
+                messages = data.get("message_detail_list", [])
+                if messages:
+                    # 将消息列表转换为上下文格式
+                    return self._parse_message_list(session_id, messages)
         except:
             pass
         return None
+    
+    def _parse_message_list(self, session_id: str, messages: list) -> dict:
+        """将消息列表解析为上下文格式"""
+        context = {
+            "session_id": session_id,
+            "turns": [],
+            "context": {}
+        }
+        
+        for msg in messages:
+            role = msg.get("role", "user")
+            content = msg.get("content", "")
+            # 去除可能的引号包裹
+            if content.startswith('"') and content.endswith('"'):
+                content = content[1:-1]
+            context["turns"].append({
+                "role": role,
+                "content": content
+            })
+        
+        return context
     
     def _parse_memo_context(self, memo: dict) -> dict:
         """解析Memo为上下文格式"""

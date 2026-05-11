@@ -19,9 +19,9 @@ from typing import Dict, List, Callable
 
 # ==================== 配置 ====================
 
-TEST_DIR = Path.home() / ".openclaw/scripts"
-REPORT_DIR = Path.home() / ".openclaw/reports"
-LOG_DIR = Path.home() / ".openclaw/logs"
+TEST_DIR = Path.home() / ".real/scripts"
+REPORT_DIR = Path.home() / ".real/reports"
+LOG_DIR = Path.home() / ".real/logs"
 
 # ==================== 测试框架 ====================
 

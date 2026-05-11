@@ -4,7 +4,9 @@ ClawShell Skill Market - 悟空专属技能市场
 """
 
 import sys
-sys.path.insert(0, r'C:\Users\Aorus\.ClawShell')
+import os
+from pathlib import Path
+sys.path.insert(0, os.environ.get('CLAWSHELL_ROOT', str(Path.home() / '.ClawShell')))
 
 from lib.layer4.swarm import NodeRegistry, NodeType, NodeStatus
 from lib.layer3.task_market import TaskMarket, TaskMatcher, TaskPriority

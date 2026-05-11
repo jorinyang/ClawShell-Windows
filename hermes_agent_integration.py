@@ -25,8 +25,8 @@ from datetime import datetime
 from typing import Dict, List, Optional, Callable
 from dataclasses import dataclass, field
 
-# ClawShell 路径
-CLAWSHELL_PATH = Path(r"C:\Users\Aorus\.ClawShell")
+# ClawShell 路径 (动态检测，支持WSL/Windows/macOS)
+CLAWSHELL_PATH = Path(os.environ.get("CLAWSHELL_ROOT", str(Path.home() / ".ClawShell")))
 sys.path.insert(0, str(CLAWSHELL_PATH))
 
 # 导入 ClawShell 组件
@@ -43,13 +43,13 @@ except ImportError as e:
 # ============ 配置 ============
 
 # 修正后的路径: 悟空实际 EventBus 路径
-EVENTBUS_DIR = Path.home() / ".openclaw" / "eventbus"
+EVENTBUS_DIR = Path.home() / ".real" / "eventbus"
 EVENTBUS_EVENTS_DIR = EVENTBUS_DIR / "events"
 EVENTBUS_CONDITIONS_DIR = EVENTBUS_DIR / "conditions"
 EVENTBUS_DEADLETTER_DIR = EVENTBUS_DIR / "dead_letter"
 
 # NodeRegistry 实际路径
-NODEREGISTRY_PATH = Path.home() / ".openclaw" / ".node_registry.json"
+NODEREGISTRY_PATH = Path.home() / ".real" / ".node_registry.json"
 
 HERMES_NODE_ID = "hermes-agent-primary"
 HERMES_NODE_NAME = "Hermes Agent (前脑进化引擎)"

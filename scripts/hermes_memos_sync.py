@@ -21,7 +21,7 @@ MEMOS_BASE_URL = os.environ.get("MEMOS_BASE_URL", "https://memos.memtensor.cn/ap
 MEMOS_API_KEY = os.environ.get("MEMOS_API_KEY", "")
 
 # 本地配置
-OPENCLAW_DIR = Path.home() / ".openclaw"
+OPENCLAW_DIR = Path.home() / ".real"
 STATE_FILE = OPENCLAW_DIR / "shared" / ".memos_sync_state.json"
 LOG_FILE = OPENCLAW_DIR / "logs" / "memos_sync.log"
 

@@ -16,7 +16,7 @@ from typing import Dict, List, Optional
 
 # ==================== 配置 ====================
 
-TEMPLATE_DIR = Path.home() / ".openclaw/templates"
+TEMPLATE_DIR = Path.home() / ".real/templates"
 TEMPLATE_CONFIG = TEMPLATE_DIR / "templates.json"
 
 # ==================== 模板引擎 ====================

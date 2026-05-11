@@ -10,7 +10,7 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from organizer.task_market import (
+from lib.layer3.task_market import (
     TaskMarket,
     TaskMatcher,
     Task,
@@ -18,7 +18,7 @@ from organizer.task_market import (
     TaskPriority,
     create_task
 )
-from swarm.node_registry import NodeRegistry, NodeType, NodeStatus
+from lib.layer4.swarm import NodeRegistry, NodeType, NodeStatus
 
 
 class TestTaskMatcher(unittest.TestCase):

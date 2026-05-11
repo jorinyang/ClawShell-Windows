@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Dict, Any
 
 # 配置
-OPENCLAW_DIR = Path.home() / ".openclaw"
+OPENCLAW_DIR = Path.home() / ".real"
 SKILLS_DIR = OPENCLAW_DIR / "workspace" / "skills"
 TEMPLATE_DIR = OPENCLAW_DIR / "shared" / "hermes_insights" / "applied"
 TEMPLATE_BACKUP = OPENCLAW_DIR / "shared" / "hermes_insights" / "skill_templates"

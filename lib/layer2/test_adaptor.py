@@ -12,7 +12,9 @@ import os
 # 添加父目录到路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from adaptor import StateCollector, StrategyAnalyzer, AutoResponder
+from lib.layer2.state_collector import StateCollector
+from lib.layer2.analyzer import StrategyAnalyzer
+from lib.layer2.responder import AutoResponder
 
 
 def test_state_collector():

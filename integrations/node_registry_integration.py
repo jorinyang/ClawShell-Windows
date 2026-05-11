@@ -4,7 +4,9 @@ ClawShell 节点注册集成 - 多悟空协作
 """
 
 import sys
-sys.path.insert(0, r'C:\Users\Aorus\.ClawShell')
+import os
+from pathlib import Path
+sys.path.insert(0, os.environ.get('CLAWSHELL_ROOT', str(Path.home() / '.ClawShell')))
 
 from lib.layer4.swarm import NodeRegistry, Node, NodeType, NodeStatus
 from lib.layer4.trust import TrustManager, TrustLevel

@@ -11,7 +11,7 @@ Hermes × 悟空 双通道集成模块 (MCP主 + 文件系统备)
 悟空配置:
 - MCP Server: ~/.real/users/{user_id}/.mcp/mcpServerConfig.json
 - 脚本路径: ~/.real/users/{user_id}/workspace/tmp/mcp_server.py
-- HTTP Bridge: 127.0.0.1:47832
+- HTTP Bridge: 端口从 ~/.real/.mcp/http-bridge-port.json 读取 (默认 17655)
 """
 
 import sys
@@ -46,7 +46,19 @@ FS_ARCHIVE = FS_BRIDGE_DIR / "archive"   # 已处理归档
 # MCP 配置
 MCP_SERVER_NAME = "clawshell-mcp"
 MCP_TIMEOUT = 30  # 秒
-HTTP_BRIDGE_PORT = 47832
+
+def _load_mcp_bridge_port() -> int:
+    """从配置读取 MCP HTTP Bridge 端口"""
+    port_file = REAL_BASE / ".mcp" / "http-bridge-port.json"
+    try:
+        if port_file.exists():
+            with open(port_file, "r") as f:
+                return json.load(f)
+    except Exception:
+        pass
+    return 17655  # 默认端口
+
+HTTP_BRIDGE_PORT = _load_mcp_bridge_port()
 
 # Hermes 节点标识
 HERMES_NODE_ID = "hermes-agent-primary"

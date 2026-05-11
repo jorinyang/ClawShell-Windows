@@ -18,8 +18,8 @@ from typing import Dict, List, Tuple
 
 # ==================== 配置 ====================
 
-SCRIPT_DIR = Path.home() / ".openclaw/scripts"
-REPORT_DIR = Path.home() / ".openclaw/reports"
+SCRIPT_DIR = Path.home() / ".real/scripts"
+REPORT_DIR = Path.home() / ".real/reports"
 GATE_THRESHOLD = 80.0  # 通过率门禁阈值(%)
 
 # ==================== CI管理器 ====================

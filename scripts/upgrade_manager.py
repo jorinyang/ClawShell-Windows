@@ -19,9 +19,9 @@ from typing import Dict, List, Optional
 
 # ==================== 配置 ====================
 
-SCRIPT_DIR = Path.home() / ".openclaw/scripts"
-BACKUP_DIR = Path.home() / ".openclaw/backups"
-UPGRADE_LOG = Path.home() / ".openclaw/logs/upgrade.log"
+SCRIPT_DIR = Path.home() / ".real/scripts"
+BACKUP_DIR = Path.home() / ".real/backups"
+UPGRADE_LOG = Path.home() / ".real/logs/upgrade.log"
 
 # ==================== 版本管理器 ====================
 

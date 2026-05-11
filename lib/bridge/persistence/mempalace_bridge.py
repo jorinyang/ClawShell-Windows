@@ -14,7 +14,16 @@ class MemPalaceBridge:
     """MemPalace本地持久化桥接器"""
     
     def __init__(self, db_path: Optional[Path] = None):
-        self.db_path = db_path or Path.home() / ".claude" / "palace" / "memories.db"
+        # 使用悟空原生路径，确保 Windows/WSL 共享同一数据库
+        if db_path is None:
+            # 优先使用 Windows 原生路径（通过 WSL 挂载）
+            windows_palace = Path("/mnt/c/Users/Aorus/.claude/palace")
+            if windows_palace.exists():
+                db_path = windows_palace / "memories.db"
+            else:
+                # Fallback: WSL 本地路径
+                db_path = Path.home() / ".claude" / "palace" / "memories.db"
+        self.db_path = db_path
         self._init_db()
     
     def _init_db(self):

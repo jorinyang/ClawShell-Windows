@@ -81,12 +81,12 @@ class HermesBridgeV2:
         home = Path.home()
         return {
             'subscriber': {
-                'path': str(home / '.openclaw/workspace/shared/eventbus'),
+                'path': str(home / '.real/workspace/shared/eventbus'),
                 'patterns': ['clawshell.*.json'],
                 'poll_interval': 1.0
             },
             'publisher': {
-                'path': str(home / '.openclaw/workspace/shared/eventbus')
+                'path': str(home / '.real/workspace/shared/eventbus')
             },
             'queue': {
                 'max_size': 1000,

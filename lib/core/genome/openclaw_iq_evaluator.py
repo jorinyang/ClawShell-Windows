@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, asdict
-from iq_challenge_questions import DeepChallengeIQTest
+from lib.core.genome.iq_challenge_questions import DeepChallengeIQTest
 
 @dataclass
 class Answer:

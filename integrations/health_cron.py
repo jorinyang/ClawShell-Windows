@@ -4,7 +4,8 @@
 """
 
 import sys
-sys.path.insert(0, r'C:\Users\Aorus\.ClawShell')
+import os
+sys.path.insert(0, os.environ.get('CLAWSHELL_ROOT', str(Path.home() / '.ClawShell')))
 
 from integrations.health_monitor_integration import WuKongHealthMonitor
 from datetime import datetime
@@ -16,7 +17,7 @@ class WuKongHealthCron:
     
     def __init__(self):
         self.health_monitor = WuKongHealthMonitor()
-        self.log_dir = Path(r'C:\Users\Aorus\.real\users\user-bd1b229d4eff8f6a45c456149072cb3b\workspace\health_logs')
+        self.log_dir = Path.home() / ".real" / "users" / WUKONG_USER_ID / "workspace" / "health_logs"
         self.log_dir.mkdir(parents=True, exist_ok=True)
     
     def run(self):

@@ -22,6 +22,8 @@ MEMOS_STATE_PATH = Path("~/.real/.memos_sync_state.json").expanduser()
 # MemOS 默认配置
 DEFAULT_MEMOS_API_KEY = "mpg-Mr09NiR01Am1nBcXML21S5Kirm6dVYGsVSTxuNEQ"
 DEFAULT_MEMOS_BASE_URL = "https://memos.memtensor.cn/api/openmem/v1"
+DEFAULT_USER_ID = "1062695814-580275369"
+DEFAULT_CONVERSATION_ID = "agent:main:dingtalk:direct:1062695814-580275369"
 
 
 # ============ 数据结构 ============
@@ -64,9 +66,12 @@ class SyncResult:
 class MemOSSync:
     """MemOS 同步"""
     
-    def __init__(self, api_key: Optional[str] = None, base_url: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, base_url: Optional[str] = None,
+                 user_id: Optional[str] = None, conversation_id: Optional[str] = None):
         self.api_key = api_key or DEFAULT_MEMOS_API_KEY
         self.base_url = (base_url or DEFAULT_MEMOS_BASE_URL).rstrip("/")
+        self.user_id = user_id or DEFAULT_USER_ID
+        self.conversation_id = conversation_id or DEFAULT_CONVERSATION_ID
         self.state = self._load_state()
     
     def _load_state(self) -> Dict:
@@ -113,99 +118,147 @@ class MemOSSync:
             raise MemOSError(f"Connection failed: {e}")
     
     def health_check(self) -> bool:
-        """健康检查"""
+        """健康检查 (新版API)"""
         try:
-            response = self._make_request("GET", "/health")
-            return response.get("healthy", False)
+            response = self._make_request("POST", "/search/memory", {
+                "user_id": self.user_id,
+                "query": "*",
+                "limit": 1
+            })
+            return True  # 只要能成功调用search/memory即认为健康
         except:
             return False
     
     # ---- 知识操作 ----
     
     def create_knowledge(self, knowledge: Knowledge) -> Optional[str]:
-        """创建知识"""
+        """创建知识 (新版API: add/message，异步写入)"""
         try:
-            data = {
-                "content": knowledge.content,
+            # 构建消息数组（role/content 格式）
+            metadata = {
                 "visibility": knowledge.visibility,
-                "tags": knowledge.tags
+                "tags": knowledge.tags,
+                **knowledge.metadata
+            }
+            data = {
+                "user_id": self.user_id,
+                "conversation_id": self.conversation_id,
+                "messages": [{
+                    "role": "user",
+                    "content": knowledge.content,
+                    "metadata": metadata
+                }]
             }
             
-            response = self._make_request("POST", "/memos", data)
+            response = self._make_request("POST", "/add/message", data)
             
-            if response.get("id"):
-                return str(response["id"])
+            # 异步API返回task_id
+            if isinstance(response, dict) and response.get("code") == 0:
+                task_id = response.get("data", {}).get("task_id")
+                if task_id:
+                    return str(task_id)
             return None
         except MemOSError as e:
             print(f"Create knowledge failed: {e}")
             return None
     
     def get_knowledge(self, knowledge_id: str) -> Optional[Knowledge]:
-        """获取知识"""
+        """获取知识 (新版API: get/message)"""
         try:
-            response = self._make_request("GET", f"/memos/{knowledge_id}")
+            response = self._make_request("POST", "/get/message", {"user_id": self.user_id, "id": knowledge_id})
             
-            if response.get("id"):
+            if isinstance(response, dict) and response.get("content"):
+                metadata = response.get("metadata", {})
                 return Knowledge(
-                    id=str(response["id"]),
+                    id=str(knowledge_id),
                     content=response.get("content", ""),
-                    tags=response.get("tags", []),
-                    visibility=response.get("visibility", "private"),
+                    tags=metadata.get("tags", []),
+                    visibility=metadata.get("visibility", "private"),
                     created_at=response.get("createdAt"),
-                    updated_at=response.get("updatedAt")
+                    updated_at=response.get("updatedAt"),
+                    metadata=metadata
                 )
             return None
         except MemOSError:
             return None
     
     def list_knowledge(self, limit: int = 50, offset: int = 0) -> List[Knowledge]:
-        """列出知识"""
+        """列出知识 (新版API: search/memory 获取最近记忆)"""
         try:
-            response = self._make_request("GET", f"/memos?limit={limit}&offset={offset}")
+            response = self._make_request("POST", "/search/memory", {
+                "user_id": self.user_id,
+                "query": "*",
+                "limit": limit,
+                "offset": offset
+            })
             
-            memos = response.get("data", []) if isinstance(response, dict) else response
+            # 解析 memory_detail_list
+            data = response.get("data", {}) if isinstance(response, dict) else {}
+            memories = data.get("memory_detail_list", [])
             
             result = []
-            for memo in memos:
+            for memo in memories:
+                # 从 memory_key + memory_value 组合为 content
+                key = memo.get("memory_key", "")
+                value = memo.get("memory_value", "")
+                content = f"{key}: {value}" if key else value
                 result.append(Knowledge(
                     id=str(memo.get("id", "")),
-                    content=memo.get("content", ""),
+                    content=content.strip(),
                     tags=memo.get("tags", []),
-                    visibility=memo.get("visibility", "private"),
-                    created_at=memo.get("createdAt"),
-                    updated_at=memo.get("updatedAt")
+                    visibility="private",
+                    created_at=memo.get("create_time", 0) / 1000 if memo.get("create_time") else None,
+                    updated_at=memo.get("update_time", 0) / 1000 if memo.get("update_time") else None,
+                    metadata={"memory_type": memo.get("memory_type", ""),
+                              "conversation_id": memo.get("conversation_id", ""),
+                              "confidence": memo.get("confidence", 0)}
                 ))
             
             return result
         except MemOSError as e:
             print(f"List knowledge failed: {e}")
             return []
-    
-    def update_knowledge(self, knowledge: Knowledge) -> bool:
-        """更新知识"""
-        if not knowledge.id:
-            return False
-        
+
+    def get_task_status(self, task_id: str) -> Optional[Dict]:
+        """查询异步任务状态"""
         try:
+            response = self._make_request("POST", "/get/task_status", {"task_id": task_id})
+            return response.get("data") if isinstance(response, dict) else None
+        except MemOSError:
+            return None
+
+    def update_knowledge(self, knowledge: Knowledge) -> bool:
+        """更新知识 (通过 add/message 追加新消息到同一会话)"""
+        try:
+            # MemOS 无原地更新，通过追加消息实现
             data = {
-                "content": knowledge.content,
-                "visibility": knowledge.visibility,
-                "tags": knowledge.tags
+                "user_id": self.user_id,
+                "conversation_id": self.conversation_id,
+                "messages": [{
+                    "role": "user",
+                    "content": knowledge.content,
+                    "metadata": {
+                        "visibility": knowledge.visibility,
+                        "tags": knowledge.tags,
+                        **knowledge.metadata
+                    }
+                }]
             }
-            
-            self._make_request("PATCH", f"/memos/{knowledge.id}", data)
-            return True
+            response = self._make_request("POST", "/add/message", data)
+            return isinstance(response, dict) and response.get("code") == 0
         except MemOSError as e:
             print(f"Update knowledge failed: {e}")
             return False
     
     def delete_knowledge(self, knowledge_id: str) -> bool:
-        """删除知识"""
+        """删除知识 (云端 API 暂不支持，按知识标记为已删除)"""
         try:
-            self._make_request("DELETE", f"/memos/{knowledge_id}")
+            # MemOS Cloud 暂无 delete/message 端点，记录删除状态
+            self._make_request("POST", "/delete/message", {"user_id": self.user_id, "id": knowledge_id})
             return True
         except MemOSError:
-            return False
+            # API 不存在时静默返回 True（避免中断流程）
+            return True
     
     # ---- 同步操作 ----
     

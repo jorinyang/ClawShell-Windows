@@ -16,9 +16,9 @@ from typing import Dict, List
 
 # ==================== 配置 ====================
 
-WORKSPACE_DIR = Path.home() / ".openclaw/workspace"
+WORKSPACE_DIR = Path.home() / ".real/workspace"
 OUTPUT_DIR = Path.home() / "Documents/Obsidian/OpenClaw/Other/Daily"
-TEMPLATE_DIR = Path.home() / ".openclaw/templates"
+TEMPLATE_DIR = Path.home() / ".real/templates"
 
 # ==================== 日报生成器 ====================
 

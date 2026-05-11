@@ -4,10 +4,11 @@ ClawShell × WuKong 集成模块
 方案B产物：基于真实API探测的集成代码
 """
 import sys
+import os
 from pathlib import Path
 
-# ClawShell路径配置
-CLAWSHELL_PATH = Path(r"C:\Users\Aorus\.ClawShell")
+# ClawShell路径配置 (动态检测，支持WSL/Windows/macOS)
+CLAWSHELL_PATH = Path(os.environ.get("CLAWSHELL_ROOT", str(Path.home() / ".ClawShell")))
 sys.path.insert(0, str(CLAWSHELL_PATH))
 
 # ============ Layer 1: 健康监控集成 ============

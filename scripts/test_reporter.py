@@ -16,7 +16,7 @@ from typing import Dict, List
 
 # ==================== 配置 ====================
 
-REPORT_DIR = Path.home() / ".openclaw/reports"
+REPORT_DIR = Path.home() / ".real/reports"
 ARCHIVE_DIR = REPORT_DIR / "archive"
 
 # ==================== 报告生成器 ====================

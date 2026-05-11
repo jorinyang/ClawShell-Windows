@@ -18,9 +18,9 @@ from typing import Dict, List, Optional
 
 # ==================== 配置 ====================
 
-SCRIPT_DIR = Path.home() / ".openclaw/scripts"
-LOG_DIR = Path.home() / ".openclaw/logs"
-OUTPUT_DIR = Path.home() / ".openclaw/reports"
+SCRIPT_DIR = Path.home() / ".real/scripts"
+LOG_DIR = Path.home() / ".real/logs"
+OUTPUT_DIR = Path.home() / ".real/reports"
 
 # ==================== 集成管理器 ====================
 

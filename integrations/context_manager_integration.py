@@ -4,7 +4,9 @@ ClawShell 上下文管理器集成 - 管理多会话状态
 """
 
 import sys
-sys.path.insert(0, r'C:\Users\Aorus\.ClawShell')
+import os
+from pathlib import Path
+sys.path.insert(0, os.environ.get('CLAWSHELL_ROOT', str(Path.home() / '.ClawShell')))
 
 from lib.layer3.context_manager import ContextManager
 from datetime import datetime

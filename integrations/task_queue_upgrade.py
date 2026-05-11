@@ -4,7 +4,8 @@
 """
 
 import sys
-sys.path.insert(0, r'C:\Users\Aorus\.ClawShell')
+import os
+sys.path.insert(0, os.environ.get('CLAWSHELL_ROOT', str(Path.home() / '.ClawShell')))
 
 from integrations.task_market_integration import WuKongTaskMarket
 from lib.layer3.task_market import TaskPriority
@@ -17,7 +18,7 @@ class WuKongTaskQueue:
     
     def __init__(self):
         self.market = WuKongTaskMarket()
-        self.log_dir = Path(r'C:\Users\Aorus\.real\users\user-bd1b229d4eff8f6a45c456149072cb3b\workspace\task_logs')
+        self.log_dir = Path.home() / ".real" / "users" / WUKONG_USER_ID / "workspace" / "task_logs"
         self.log_dir.mkdir(parents=True, exist_ok=True)
         print(f"[任务队列] WuKongTaskMarket 已初始化")
         print(f"[任务队列] 当前待处理任务: {len(self.market.get_pending_tasks())}")

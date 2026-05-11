@@ -259,7 +259,7 @@ class RepairEngine:
     def _repair_activate_eventbus(self, issue) -> str:
         """激活EventBus"""
         import sys
-        sys.path.insert(0, 'C:\Users\Aorus\.real')
+        sys.path.insert(0, 'C:/Users/Aorus/.real')
         from eventbus import EventBus
         from eventbus.event import Event, EventType
         
@@ -281,7 +281,7 @@ class RepairEngine:
     def _repair_restart_agent_daemon(self, issue) -> str:
         """重启Agent Daemon"""
         # 检查是否有guardian脚本
-        guardian = Path.home() / ".openclaw/scripts/guardian.sh"
+        guardian = Path.home() / ".real/scripts/guardian.sh"
         if guardian.exists():
             subprocess.run([str(guardian), "restart"], capture_output=True)
             return "Agent Daemon restarted"
@@ -318,7 +318,7 @@ class RepairEngine:
         cleaned = 0
         
         # 清理备份目录
-        backups = Path.home() / ".openclaw/backups"
+        backups = Path.home() / ".real/backups"
         if backups.exists():
             for subdir in backups.iterdir():
                 if subdir.is_dir() and subdir.name.startswith("backup_"):
@@ -327,7 +327,7 @@ class RepairEngine:
                     cleaned += size
         
         # 清理日志
-        logs = Path.home() / ".openclaw/workspace/shared/logs"
+        logs = Path.home() / ".real/workspace/shared/logs"
         if logs.exists():
             for log_file in logs.glob("*.log"):
                 if log_file.stat().st_size > 10 * 1024 * 1024:  # > 10MB
@@ -343,8 +343,8 @@ class RepairEngine:
         
         cleaned = 0
         temp_dirs = [
-            Path.home() / ".openclaw/workspace/shared/tmp",
-            Path.home() / ".openclaw/workspace/shared/cache",
+            Path.home() / ".real/workspace/shared/tmp",
+            Path.home() / ".real/workspace/shared/cache",
         ]
         
         for temp_dir in temp_dirs:
@@ -377,7 +377,7 @@ class RepairEngine:
         """注册能力"""
         import subprocess
         
-        script = Path.home() / ".openclaw/clawshell/heritage/register_capabilities.py"
+        script = Path.home() / ".real/clawshell/heritage/register_capabilities.py"
         if script.exists():
             result = subprocess.run(
                 ["/Library/Frameworks/Python.framework/Versions/3.12/bin/python3", str(script)],
@@ -394,8 +394,8 @@ class RepairEngine:
         import sys
         from pathlib import Path
         
-        clawshell_path = Path.home() / ".openclaw/clawshell"
-        workspace_path = Path.home() / ".openclaw/workspace"
+        clawshell_path = Path.home() / ".real/clawshell"
+        workspace_path = Path.home() / ".real/workspace"
         
         for path in [str(clawshell_path), str(workspace_path)]:
             if path not in sys.path:

@@ -21,8 +21,8 @@ from datetime import datetime
 # ==================== 配置 ====================
 
 VAULT_PATH = Path.home() / "Documents/Obsidian/OpenClaw"
-OUTPUT_DIR = Path.home() / ".openclaw/reports"
-STATE_FILE = Path.home() / ".openclaw/.semantic_analyzer_state.json"
+OUTPUT_DIR = Path.home() / ".real/reports"
+STATE_FILE = Path.home() / ".real/.semantic_analyzer_state.json"
 
 # 扫描范围
 SCAN_DIRS = ["1_Work", "2_Learn", "3_Research", "4_Life", "Other"]

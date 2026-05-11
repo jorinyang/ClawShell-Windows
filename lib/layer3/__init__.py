@@ -14,7 +14,7 @@ from pathlib import Path
 # 检查是否有源目录可用
 _source_paths = [
     Path(__file__).parent.parent.parent / "organizer",  # ../../../organizer
-    Path.home() / ".openclaw" / "organizer",
+    Path.home() / ".real" / "organizer",
 ]
 
 for _sp in _source_paths:

@@ -16,9 +16,9 @@ from datetime import datetime
 
 # ==================== 配置 ====================
 
-SCRIPT_DIR = Path.home() / ".openclaw/scripts"
-LOG_DIR = Path.home() / ".openclaw/logs"
-CACHE_DIR = Path.home() / ".openclaw/cache"
+SCRIPT_DIR = Path.home() / ".real/scripts"
+LOG_DIR = Path.home() / ".real/logs"
+CACHE_DIR = Path.home() / ".real/cache"
 
 # ==================== 性能分析 ====================
 

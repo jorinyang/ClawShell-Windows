@@ -9,7 +9,8 @@ import json
 import time
 from datetime import datetime
 from typing import Dict, List, Optional
-from openclaw_iq_evaluator import get_evaluator
+from lib.core.genome.openclaw_iq_evaluator import OpenClawIQEvaluator
+def get_evaluator(): return OpenClawIQEvaluator()
 
 class IQEvaluationController:
     """

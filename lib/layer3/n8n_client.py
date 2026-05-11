@@ -11,7 +11,8 @@ import logging
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 
-from organizer import Task, TaskMarket
+from lib.layer3.task_market import TaskMarket
+from lib.layer3.organizer import Task
 
 logger = logging.getLogger(__name__)
 

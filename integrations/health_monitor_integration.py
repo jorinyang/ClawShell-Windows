@@ -4,7 +4,9 @@ ClawShell 健康检查集成 - 替换悟空手动健康检查
 """
 
 import sys
-sys.path.insert(0, r'C:\Users\Aorus\.ClawShell')
+import os
+from pathlib import Path
+sys.path.insert(0, os.environ.get('CLAWSHELL_ROOT', str(Path.home() / '.ClawShell')))
 
 from lib.layer1.health_check import HealthMonitor, HealthStatus
 
