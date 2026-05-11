@@ -34,6 +34,8 @@ SYNC_INTERVAL = int(os.environ.get("CLAWSHELL_SYNC_INTERVAL", "5"))
 EVENTBUS_DIR = REAL_BASE / "eventbus" / "events"
 OFFLINE_QUEUE_FILE = REAL_BASE / "offline_events.json"
 HEALTH_LOG = REAL_BASE / "logs" / "edge_sync.log"
+INSIGHTS_FILE = REAL_BASE / "cloud_insights.json"  # Action reference cache
+BROADCASTS_FILE = REAL_BASE / "cloud_broadcasts.json"
 
 EVENTBUS_DIR.mkdir(parents=True, exist_ok=True)
 (REAL_BASE / "logs").mkdir(parents=True, exist_ok=True)
@@ -111,6 +113,14 @@ class CloudClient:
 
     def report_health(self, report: dict) -> dict:
         return self._req("POST", "/api/v1/health/report", report)
+
+    def pull_insights(self, limit: int = 10) -> dict:
+        """Pull cloud insights as action reference before edge operations."""
+        return self._req("GET", f"/api/v1/insights/?limit={limit}")
+
+    def pull_broadcasts(self) -> dict:
+        """Pull cloud broadcasts (skill updates, config changes, global insights)."""
+        return self._req("GET", "/api/v1/broadcasts/")
 
 
 # ═══════════════════════════════════════════════════════════
@@ -234,7 +244,8 @@ class EdgeSyncDaemon:
         self.health = HealthReporter()
         self.scanner = LocalEventScanner()
         self.running = False
-        self.stats = {"events_synced": 0, "tasks_pulled": 0, "health_reports": 0,
+        self.stats = {"events_synced": 0, "tasks_pulled": 0, "insights_pulled": 0,
+                       "broadcasts_pulled": 0, "health_reports": 0,
                        "cycles": 0, "errors": 0, "started_at": datetime.now().isoformat()}
 
     def start(self):
@@ -274,7 +285,7 @@ class EdgeSyncDaemon:
             self.stats["events_synced"] += synced
             logger.info(f"Synced {synced} events, {self.queue.size()} queued")
 
-        # 3. Pull & auto-claim open tasks from Global Task Board
+        # 3. Pull remote tasks from Cloud TaskMarket
         try:
             tasks = self.cloud.pull_tasks()
             if "tasks" in tasks and tasks["tasks"]:
@@ -288,6 +299,27 @@ class EdgeSyncDaemon:
                             break
         except Exception as e:
             pass  # Cloud may be offline
+
+        # 4. Pull cloud insights as Action Reference
+        #    "端脑在任意行动执行前需主动拉取云端信息作为行动参考"
+        try:
+            insights = self.cloud.pull_insights(limit=10)
+            if insights and "insights" in insights and insights["insights"]:
+                INSIGHTS_FILE.write_text(json.dumps(insights["insights"], indent=2, ensure_ascii=False))
+                self.stats["insights_pulled"] += len(insights["insights"])
+                logger.debug(f"Pulled {len(insights['insights'])} cloud insights → {INSIGHTS_FILE}")
+        except:
+            pass
+
+        # 5. Pull cloud broadcasts (skill updates, config changes)
+        try:
+            broadcasts = self.cloud.pull_broadcasts()
+            if broadcasts and "broadcasts" in broadcasts and broadcasts["broadcasts"]:
+                BROADCASTS_FILE.write_text(json.dumps(broadcasts, indent=2, ensure_ascii=False))
+                self.stats["broadcasts_pulled"] += 1
+                logger.info(f"Pulled cloud broadcast: {len(broadcasts.get('broadcasts',[]))} items")
+        except:
+            pass
 
         # 4. Discover new skills from Skill Market
         try:
