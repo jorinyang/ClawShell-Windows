@@ -272,9 +272,7 @@ def main():
     parser.add_argument("--interval", type=int, default=SYNC_INTERVAL)
     args = parser.parse_args()
 
-    global SYNC_INTERVAL
-    SYNC_INTERVAL = args.interval
-
+    interval = args.interval
     daemon = EdgeSyncDaemon(cloud_url=args.cloud_url)
 
     if args.status:
