@@ -113,6 +113,15 @@ COMPONENTS = {
         "check": lambda: _check_import("websockets"),
         "post_install": None,
     },
+    "obsidian_oss": {
+        "name": "Obsidian Vault + OSS (知识库云端同步)",
+        "description": "阿里云OSS存储Obsidian知识库，本地Obsidian客户端+双向同步",
+        "required": False,
+        "category": "knowledge",
+        "install": lambda: _install_ossutil(),
+        "check": lambda: _check_command("ossutil"),
+        "post_install": lambda: _configure_oss(),
+    },
 }
 
 
@@ -176,6 +185,55 @@ def _configure_api_key(env_var: str, description: str):
         with open(env_file, "a") as f:
             f.write(f"\n{env_var}={key}\n")
         print(f"   ✅ {env_var} saved to {env_file}")
+
+
+def _install_ossutil() -> bool:
+    """Install Alibaba Cloud ossutil CLI"""
+    import platform
+    sysname = platform.system().lower()
+    
+    if sysname == "linux":
+        url = "https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil64"
+        try:
+            subprocess.run(["curl", "-o", "/tmp/ossutil", url], capture_output=True, timeout=60)
+            subprocess.run(["chmod", "+x", "/tmp/ossutil"])
+            subprocess.run(["sudo", "mv", "/tmp/ossutil", "/usr/local/bin/ossutil"], capture_output=True)
+            return _check_command("ossutil")
+        except:
+            return False
+    elif sysname == "darwin":
+        url = "https://gosspublic.alicdn.com/ossutil/1.7.19/ossutilmac64"
+        try:
+            subprocess.run(["curl", "-o", "/usr/local/bin/ossutil", url], capture_output=True, timeout=60)
+            subprocess.run(["chmod", "+x", "/usr/local/bin/ossutil"])
+            return _check_command("ossutil")
+        except:
+            return False
+    return False
+
+
+def _configure_oss():
+    """Configure OSS credentials"""
+    print("\n   Configure Alibaba Cloud OSS:")
+    print("   (Get AK/SK from: https://ram.console.aliyun.com/manage/ak)")
+    
+    ak = input("   AccessKey ID: ").strip()
+    sk = input("   AccessKey Secret: ").strip()
+    bucket = input("   OSS Bucket name [clawshell-vault]: ").strip() or "clawshell-vault"
+    endpoint = input("   OSS Endpoint [oss-cn-hangzhou.aliyuncs.com]: ").strip() or "oss-cn-hangzhou.aliyuncs.com"
+    
+    if ak and sk:
+        subprocess.run(["ossutil", "config", "-e", endpoint, "-i", ak, "-k", sk], capture_output=True)
+        
+        # Save to env
+        env_file = Path.home() / ".hermes" / ".env"
+        env_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(env_file, "a") as f:
+            f.write(f"\nALIBABA_CLOUD_ACCESS_KEY_ID={ak}\n")
+            f.write(f"ALIBABA_CLOUD_ACCESS_KEY_SECRET={sk}\n")
+            f.write(f"OSS_BUCKET={bucket}\n")
+            f.write(f"OSS_ENDPOINT={endpoint}\n")
+        print(f"   ✅ OSS configured: oss://{bucket}/")
 
 
 def _install_playwright_chromium() -> bool:
