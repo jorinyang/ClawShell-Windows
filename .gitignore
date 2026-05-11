@@ -46,3 +46,4 @@ htmlcov/
 # Windows cache
 AppData/storage/
 __pycache__/
+storage/
