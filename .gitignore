@@ -44,4 +44,5 @@ node_modules/
 htmlcov/
 
 # Windows cache
-AppData/
+AppData/storage/
+__pycache__/
