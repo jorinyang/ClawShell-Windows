@@ -9,15 +9,20 @@ Actions performed:
   2. Configure memory provider for Cloud API
   3. Register cron jobs via hermes cron create
   4. Update config.yaml with ClawShell integration settings
+  5. ActionReferenceHook — inject cloud insights before agent actions (v1.1)
 """
 
 import json
 import yaml
 import logging
 from pathlib import Path
-from typing import Dict
+from datetime import datetime
+from typing import Dict, Optional
 
 logger = logging.getLogger("HermesAdapter")
+
+# Action reference file for Hermes agent context
+HERMES_REFERENCE_FILE = "clawshell_action_reference.md"
 
 
 class HermesAdapter:
@@ -127,16 +132,115 @@ This skill connects Hermes Agent to the ClawShell 2.0 cloud-edge architecture.
         self.env_file.write_text("\n".join(lines))
         return {"status": "updated", "vars": updated}
 
+    # ═══ ActionReferenceHook (v1.1) ═════════════════════════
+
+    def inject_action_reference(self) -> Dict:
+        """Inject cloud insights as Hermes agent context.
+
+        Reads cloud_insights.json from edge_sync_daemon and writes
+        a markdown reference file in ~/.hermes/ that Hermes agent
+        can include as context before action execution.
+
+        This implements: "端脑在任意行动执行前需主动拉取云端信息作为行动参考"
+        """
+        # Read from edge_sync_daemon cache (at .real or .hermes)
+        ref_dirs = [
+            self.hermes_home,
+            Path.home() / ".real",
+            Path(f"/mnt/c/Users/{Path.home().name}") / ".real",
+        ]
+
+        insights_data = []
+        broadcasts_data = []
+        available = False
+
+        for d in ref_dirs:
+            insights_file = d / "cloud_insights.json"
+            if insights_file.exists():
+                try:
+                    data = json.loads(insights_file.read_text())
+                    if isinstance(data, list):
+                        insights_data = data
+                    elif isinstance(data, dict):
+                        insights_data = data.get("insights", [])
+                    available = True
+                    break
+                except:
+                    pass
+
+        for d in ref_dirs:
+            broadcasts_file = d / "cloud_broadcasts.json"
+            if broadcasts_file.exists():
+                try:
+                    data = json.loads(broadcasts_file.read_text())
+                    if isinstance(data, dict):
+                        broadcasts_data = data.get("broadcasts", [])
+                    available = True
+                    break
+                except:
+                    pass
+
+        ref_file = self.hermes_home / HERMES_REFERENCE_FILE
+
+        lines = [
+            "# ClawShell Cloud Action Reference (Hermes)",
+            f"> Generated: {datetime.now().isoformat()}",
+            f"> Source: Cloud Hub (一云多端云边协同分布式神经系统)",
+            "",
+        ]
+
+        if not available:
+            lines.append("⚠️ **Cloud Hub unreachable** — autonomous mode active.")
+            lines.append("Using local MemPalace + MemOS Local for context.")
+            ref_file.write_text("\n".join(lines))
+            return {"status": "offline", "file": str(ref_file)}
+
+        if insights_data:
+            lines.append("## 📊 Cloud Insights")
+            lines.append("")
+            for i, insight in enumerate(insights_data[:5], 1):
+                lines.append(f"### {i}. {insight.get('title', 'Insight ' + str(i))}")
+                lines.append(f"Category: {insight.get('category', 'N/A')} | "
+                           f"Confidence: {insight.get('confidence', 0):.0%}")
+                lines.append(f"{insight.get('description', '')}")
+                if insight.get('suggested_action'):
+                    lines.append(f"→ {insight['suggested_action']}")
+                lines.append("")
+
+        if broadcasts_data:
+            lines.append("## 📡 Cloud Broadcasts")
+            lines.append("")
+            for bc in broadcasts_data[:3]:
+                lines.append(f"- **[{bc.get('category', 'N/A')}]** {bc.get('title', '')}")
+            lines.append("")
+
+        lines.append("---")
+        lines.append("*Auto-generated. Include as pre-action context.*")
+
+        ref_file.write_text("\n".join(lines))
+        return {
+            "status": "injected",
+            "insights_count": len(insights_data),
+            "broadcasts_count": len(broadcasts_data),
+            "file": str(ref_file),
+        }
+
     # ═══ Full Integration ══════════════════════════════════
 
     def integrate_all(self, cloud_url: str = None) -> Dict:
         """Run full Hermes integration"""
-        return {
+        result = {
             "status": self.status(),
             "skill": self.register_skill(),
             "config": self.update_config(cloud_url),
             "env": self.update_env(cloud_url),
         }
+        # v1.1: Inject action reference
+        try:
+            result["action_reference"] = self.inject_action_reference()
+        except Exception as e:
+            result["action_reference"] = {"status": "error", "reason": str(e)}
+        return result
 
 
 def main():
