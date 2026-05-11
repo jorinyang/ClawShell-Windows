@@ -232,26 +232,42 @@ class EnvironmentDetector:
     def _detect_wukong(self) -> Dict:
         wk = {"found": False, "paths": [], "users": []}
 
+        # Check both WSL home and Windows /mnt/ paths
         win_home = self.results.get("os", {}).get("windows_home")
-        if not win_home:
-            return wk
+        
+        # Also try direct /mnt/c/Users/ paths (covers cases where windows_home is None)
+        mnt_users = Path("/mnt/c/Users")
+        if mnt_users.exists():
+            for user_dir in mnt_users.iterdir():
+                if user_dir.is_dir() and not user_dir.name.startswith('.'):
+                    real = user_dir / ".real"
+                    if real.exists() and (real / "users").exists():
+                        if str(real) not in wk["paths"]:
+                            wk["paths"].append(str(real))
+                            users_dir = real / "users"
+                            wk["users"].extend([d.name for d in users_dir.iterdir() if d.is_dir()])
+                            wk["found"] = True
+                            wk["type"] = "openclaw-real"
 
         # Check dingtalk-rewind-server
-        app_data = Path(win_home) / "AppData" / "Roaming" / "dingtalk-rewind-server"
-        if app_data.exists():
-            wk["found"] = True
-            wk["paths"].append(str(app_data))
-            wk["type"] = "dingtalk-rewind-server"
+        if win_home:
+            app_data = Path(win_home) / "AppData" / "Roaming" / "dingtalk-rewind-server"
+            if app_data.exists():
+                wk["found"] = True
+                wk["paths"].append(str(app_data))
+                wk["type"] = "dingtalk-rewind-server"
 
-        # Check .real for users
-        real = Path(win_home) / ".real"
-        if real.exists():
-            users_dir = real / "users"
-            if users_dir.exists():
-                wk["users"] = [d.name for d in users_dir.iterdir() if d.is_dir()]
-                wk["paths"].append(str(real))
-                if not wk.get("type"):
-                    wk["type"] = "openclaw-real"
+        # Check .real for users (already covered by /mnt/c/Users scan above)
+        if win_home:
+            real = Path(win_home) / ".real"
+            if real.exists():
+                users_dir = real / "users"
+                if users_dir.exists():
+                    wk["users"] = list(set(wk["users"] + [d.name for d in users_dir.iterdir() if d.is_dir()]))
+                    if str(real) not in wk["paths"]:
+                        wk["paths"].append(str(real))
+                    if not wk.get("type"):
+                        wk["type"] = "openclaw-real"
 
         return wk
 
