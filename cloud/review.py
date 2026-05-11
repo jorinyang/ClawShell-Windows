@@ -162,7 +162,7 @@ class ReviewEngine:
         self.data_dir = data_dir / "review"
         self.reviews_file = self.data_dir / "reviews.json"
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._reviews: List[Review] = []
         self._load()
 
@@ -307,7 +307,7 @@ class ActionPlanGenerator:
         self.data_dir = data_dir / "review"
         self.plans_file = self.data_dir / "action_plans.json"
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._plans: List[ActionPlan] = []
         self._load()
 

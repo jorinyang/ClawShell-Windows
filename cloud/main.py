@@ -140,7 +140,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="ClawShell Cloud Hub",
         description="一云多端云边协同分布式神经系统 — 云端中枢",
-        version="1.1.0"
+        version="1.2.0"
     )
     app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
@@ -159,7 +159,7 @@ def create_app() -> FastAPI:
         evolution_stats = evo.stats if evo else {}
         return {
             "status": "ok",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "engines": engine_status,
             "evolution": evolution_stats,
             "timestamp": datetime.now().isoformat()
@@ -418,7 +418,7 @@ def shutdown():
 def main():
     print("""
     ╔══════════════════════════════════════════════════╗
-    ║     ClawShell Cloud Hub v1.1.0                  ║
+    ║     ClawShell Cloud Hub v1.2.0                  ║
     ║     一云多端云边协同分布式神经系统                ║
     ║                                                  ║
     ║  12 Engines: EventBus/Task/Swarm/Scheduler        ║

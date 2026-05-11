@@ -20,7 +20,7 @@ from dataclasses import dataclass, field, asdict
 class MarketSkill:
     skill_id: str = ""
     name: str = ""
-    version: str = "1.1.0"
+    version: str = "1.2.0"
     description: str = ""
     content: str = ""
     author: str = ""           # node_id of publisher
@@ -76,7 +76,7 @@ class SkillMarket:
     # ═══ Publish ═══════════════════════════════════════════
 
     def publish(self, name: str, content: str, author: str = "unknown",
-                version: str = "1.1.0", description: str = "",
+                version: str = "1.2.0", description: str = "",
                 trigger_words: List[str] = None, tags: List[str] = None,
                 category: str = "general",
                 dependencies: List[str] = None) -> MarketSkill:

@@ -5,7 +5,7 @@ UnifiedMemoryBridge - 统一记忆桥
 ================================
 整合 MemOS Cloud 和 MemPalace 的统一记忆接口。
 MemOS Cloud 为主（跨设备同步），MemPalace 为辅（本地高速缓存）。
-Author: WuKong AI  |  Version: 1.1.0
+Author: WuKong AI  |  Version: 1.2.0
 """
 
 import sys

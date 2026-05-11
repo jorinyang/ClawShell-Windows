@@ -2,7 +2,7 @@
 """
 ClawShell Hermes Evaluator
 Hermes评估接口 - 用于外部评估OpenClaw的IQ
-版本: v1.1.0
+版本: v1.2.0
 """
 
 import json

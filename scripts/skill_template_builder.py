@@ -171,7 +171,7 @@ from datetime import datetime
 from pathlib import Path
 
 SKILL_NAME = "{skill_name}"
-SKILL_VERSION = "1.1.0"
+SKILL_VERSION = "1.2.0"
 
 
 def main():

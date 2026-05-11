@@ -2,7 +2,7 @@
 """
 ClawShell News Aggregator
 新闻聚合器 - Phase 4
-版本: v1.1.0
+版本: v1.2.0
 """
 
 import json

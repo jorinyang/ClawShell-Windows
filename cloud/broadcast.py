@@ -83,7 +83,7 @@ class BestPracticeRegistry:
         self.data_dir = data_dir / "broadcast"
         self.bp_file = self.data_dir / "best_practices.json"
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._practices: Dict[str, BestPractice] = {}
         self._load()
 
@@ -187,7 +187,7 @@ class CrossEdgeLearning:
         self.data_dir = data_dir / "broadcast"
         self.learnings_file = self.data_dir / "cross_edge_learnings.json"
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._learnings: List[Dict] = []
         self._edge_knowledge: Dict[str, List[str]] = defaultdict(list)  # edge_id → [learning_id]
         self._load()

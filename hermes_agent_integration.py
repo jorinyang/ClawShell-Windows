@@ -171,7 +171,7 @@ class HermesClawShellIntegration:
             metadata={
                 "role": "front_brain",
                 "layer": "L5",
-                "version": "1.1.0",
+                "version": "1.2.0",
                 "integration_type": "eventbus"
             }
         )

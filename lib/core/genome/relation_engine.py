@@ -2,7 +2,7 @@
 """
 ClawShell Relation Engine
 关系推理引擎 - Phase 1 升级
-版本: v1.1.0
+版本: v1.2.0
 功能: 抽象关系理解、归纳推理、演绎推理
 """
 

@@ -2,7 +2,7 @@
 """
 ClawShell Adaptive Controller
 自适应控制器 - Phase 3
-版本: v1.1.0
+版本: v1.2.0
 功能: 实时监控+动态调节(神经反馈机制)
 """
 

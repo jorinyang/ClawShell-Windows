@@ -77,7 +77,7 @@ class InsightAggregator:
         self.insights_file = self.data_dir / "insights.json"
         self.raw_file = self.data_dir / "raw_data.json"
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._insights: List[InsightRecord] = []
         self._raw_events: List[Dict] = []
         self._load()
@@ -207,7 +207,7 @@ class PatternMiner:
         self.data_dir = data_dir / "evolution"
         self.patterns_file = self.data_dir / "patterns.json"
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._patterns: List[Dict] = []
         self._load()
 
@@ -305,7 +305,7 @@ class AutoSkillPublisher:
         self.data_dir = data_dir / "evolution"
         self.published_file = self.data_dir / "auto_published_skills.json"
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._published: List[Dict] = []
         self._load()
 
@@ -396,7 +396,7 @@ class EvolutionTracker:
         self.data_dir = data_dir / "evolution"
         self.history_file = self.data_dir / "history.json"
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._events: List[EvolutionEvent] = []
         self._load()
 

@@ -2,7 +2,7 @@
 """
 ClawShell Creative Problem Solver
 创造性问题解决器 - Phase 3
-版本: v1.1.0
+版本: v1.2.0
 功能: 发散思维(多解生成) + 收敛思维(方案优选)
 """
 

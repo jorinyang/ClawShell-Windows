@@ -1,6 +1,6 @@
 {
   "name": "ClawShell",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "ClawShell v1.0 - 自感知自适应自组织AI Agent编排系统",
   "build_date": "2026-04-30",
   "架构": {
@@ -119,6 +119,6 @@
     "bin/clawshell": "主入口CLI",
     "bin/clawsync": "Hermes同步脚本"
   },
-  "clawshell_version": "1.1.0",
+  "clawshell_version": "1.2.0",
   "manifest_version": "1.0"
 }

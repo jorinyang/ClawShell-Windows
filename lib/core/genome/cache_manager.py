@@ -2,7 +2,7 @@
 """
 ClawShell Cache Manager
 智能缓存管理器 - Phase 2
-版本: v1.1.0
+版本: v1.2.0
 功能: LRU缓存+预取
 """
 

@@ -26,7 +26,7 @@ class EdgeCapability:
     node_id: str
     node_name: str = ""
     hostname: str = ""
-    version: str = "1.1.0"
+    version: str = "1.2.0"
     status: str = "online"  # online, busy, idle, offline
     capabilities: List[str] = field(default_factory=list)
     skills: List[str] = field(default_factory=list)
@@ -83,7 +83,7 @@ class CapabilityRegistry:
     def register(self, node_id: str, node_name: str = "",
                  capabilities: List[str] = None, skills: List[str] = None,
                  resources: Dict = None, hostname: str = "",
-                 version: str = "1.1.0") -> EdgeCapability:
+                 version: str = "1.2.0") -> EdgeCapability:
         """Register or update an edge node with its capabilities"""
         now = datetime.now().isoformat()
         with self._lock:

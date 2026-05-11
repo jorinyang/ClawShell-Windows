@@ -28,7 +28,7 @@ ClawShell是基于钱学森《工程控制论》思想构建的增强型外骨�
 
 ```
 clawshell_v1/
-├── CLAWSHELL_VERSION      # 版本标识 (1.1.0)
+├── CLAWSHELL_VERSION      # 版本标识 (1.2.0)
 ├── MANIFEST.json           # 能力清单
 ├── bin/
 │   ├── clawshell          # 主入口CLI
@@ -126,7 +126,7 @@ from lib.layer4 import SwarmDiscovery
 
 ## 版本历史
 
-- v1.1.0 (2026-04-30) - 统一封装，整合v0.1-v0.9全部模块
+- v1.2.0 (2026-04-30) - 统一封装，整合v0.1-v0.9全部模块
 
 ---
 *基于工程控制论原理构建 | 智询工作室*

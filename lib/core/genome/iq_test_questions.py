@@ -2,7 +2,7 @@
 """
 ClawShell IQ Test Questions
 标准化IQ测试题库
-版本: v1.1.0
+版本: v1.2.0
 """
 
 from typing import Dict, List, Tuple

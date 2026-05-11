@@ -52,7 +52,7 @@ def handle_request(req):
             send_response(req_id, {
                 "protocolVersion": "2024-11-05",
                 "capabilities": {"tools": {}},
-                "serverInfo": {"name": "UnifiedMemory", "version": "1.1.0"}
+                "serverInfo": {"name": "UnifiedMemory", "version": "1.2.0"}
             })
 
         elif method == "tools/list":

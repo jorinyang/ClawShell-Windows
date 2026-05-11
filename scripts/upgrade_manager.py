@@ -168,8 +168,8 @@ class UpgradeManager:
         """检查升级"""
         # 这里简化处理，实际应连接远程仓库检查
         return {
-            "current_version": "1.1.0",
-            "latest_version": "1.1.0",
+            "current_version": "1.2.0",
+            "latest_version": "1.2.0",
             "update_available": False,
             "scripts": len(self.scripts)
         }

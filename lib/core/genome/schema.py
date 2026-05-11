@@ -69,7 +69,7 @@ class SkillState:
     """技能状态"""
     skill_name: str
     status: str = "active"  # active, disabled, evolving
-    version: str = "1.1.0"
+    version: str = "1.2.0"
     config: Dict = field(default_factory=dict)
     performance: float = 1.0  # 0-1
     last_used: str = None

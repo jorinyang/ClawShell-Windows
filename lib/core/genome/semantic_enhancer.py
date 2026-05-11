@@ -2,7 +2,7 @@
 """
 ClawShell Semantic Enhancer
 语义理解增强 - Phase 1 升级
-版本: v1.1.0
+版本: v1.2.0
 功能: 歧义消解、多意图识别、情感分析
 """
 

@@ -2,7 +2,7 @@
 """
 ClawShell Enterprise Knowledge Base
 企业咨询知识库 - Phase 4
-版本: v1.1.0
+版本: v1.2.0
 """
 
 from typing import Dict, List

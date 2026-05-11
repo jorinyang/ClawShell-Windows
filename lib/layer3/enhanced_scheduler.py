@@ -2,7 +2,7 @@
 """
 ClawShell Enhanced Task Scheduler
 增强版任务调度器 - Phase 2
-版本: v1.1.0
+版本: v1.2.0
 功能: 并发扩容(4→8)、记忆延长、快照优化
 """
 

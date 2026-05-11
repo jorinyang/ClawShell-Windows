@@ -80,7 +80,7 @@ class CloudClient:
             "node_id": NODE_ID,
             "node_name": socket.gethostname(),
             "hostname": socket.gethostname(),
-            "version": "1.1.0",
+            "version": "1.2.0",
             "capabilities": capabilities or ["eventbus", "mcp_bridge", "health", "self_repair"],
             "skills": skills or [],
             "timestamp": datetime.now().isoformat(),
@@ -200,7 +200,7 @@ class HealthReporter:
             "disk_percent": disk,
             "services": self.check_services(),
             "uptime_seconds": time.time() - self.start_time,
-            "version": "1.1.0",
+            "version": "1.2.0",
             "capabilities": ["eventbus", "mcp_bridge", "health", "self_repair", "obsidian"],
         }
 

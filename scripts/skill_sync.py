@@ -87,7 +87,7 @@ class SkillSync:
             skill_info = {
                 "name": "",
                 "description": "",
-                "version": "1.1.0",
+                "version": "1.2.0",
                 "confidence": 0.0,
                 "pattern": {},
                 "content": content

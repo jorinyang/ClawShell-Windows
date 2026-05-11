@@ -25,7 +25,7 @@
     25|    25|- **仓库**: github.com/jorinyang/ClawShell-Windows
     26|    26|- **本地路径**: ~/.ClawShell
     27|    27|- **规模**: ~300+文件，~90脚本，~30核心模块
-    28|    28|- **版本**: CLAWSHELL_VERSION=1.1.0, git tag=v1.1.0
+    28|    28|- **版本**: CLAWSHELL_VERSION=1.2.0, git tag=v1.2.0
     29|    29|- **演变历程**: v0.1(架构搭建) → v0.9(插件封装) → v1.0(云引擎) → v1.1(Edge Sync Daemon)
     30|    30|
     31|    31|### 2.2 能力匹配矩阵
@@ -64,11 +64,11 @@
     64|    64|### 2.3 关键问题
     65|    65|
     66|    66|1. **命名混乱**: 名为"ClawShell-Windows"实为全平台代码，且部署到 ~/.ClawShell 而非Windows特定路径
-    67|    67|2. **版本不一致**: CLAWSHELL_VERSION=1.1.0，git tag=v1.1.0，README=1.1.0，MANIFEST=1.1.0
+    67|    67|2. **版本不一致**: CLAWSHELL_VERSION=1.2.0，git tag=v1.2.0，README=1.2.0，MANIFEST=1.2.0
     68|    68|3. **云-端代码混杂**: Cloud引擎(lib/core/*_cloud.py)和Edge代码(scripts/)混在同一目录树，没有明确分层
     69|    69|4. **无CloudHub主程序**: 各Cloud引擎独立存在，缺少统一的CloudHub FastAPI入口整合所有引擎
     70|    70|5. **无CloudHub自进化**: 缺少云枢自我反思→优化→广播的闭环机制
-    71|    71|6. **README过期**: 仍然描述为"悟空 增强型外骨骼功能插件 v1.1.0"，未体现2.0云边架构
+    71|    71|6. **README过期**: 仍然描述为"悟空 增强型外骨骼功能插件 v1.2.0"，未体现2.0云边架构
     72|    72|7. **MANIFEST过期**: source_mapping指向~/.real/，但当前代码在~/.ClawShell/
     73|    73|
     74|    74|---
@@ -128,7 +128,7 @@
    128|   128|2. **目录结构重组**: 引入清晰的 cloud/ edge/ 顶层分离
    129|   129|3. **CloudHub入口实现**: 在cloud/下创建FastAPI main.py整合所有云引擎
    130|   130|4. **Edge Gateway标准化**: edge_sync_daemon升级为Edge Gateway
-   131|   131|5. **版本统一**: CLAWSHELL_VERSION → 1.1.0，所有文档同步
+   131|   131|5. **版本统一**: CLAWSHELL_VERSION → 1.2.0，所有文档同步
    132|   132|6. **MemPalace边界修正**: MacOS删除mempalace-cloud/
    133|   133|7. **README/MANIFEST重写**: 体现2.0云边架构
    134|   134|

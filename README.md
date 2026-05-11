@@ -1,6 +1,6 @@
 # ClawShell
 
-> **版本**: 1.1.0
+> **版本**: 1.2.0
 > **定位**: 悟空 增强型外骨骼功能插件
 > **架构**: 自感知 × 自适应 × 自组织 × 多Agent集群
 
@@ -411,7 +411,7 @@ for issue in issues:
 ```yaml
 # config/default.yaml
 clawshell:
-  version: "1.1.0"
+  version: "1.2.0"
   
   layer1:
     health_check_interval: 300  # 5分钟
