@@ -1,0 +1,387 @@
+{
+  "timestamp": "2026-05-12T00:00:34.460732",
+  "version": "1.3",
+  "modules": {
+    "Core.EventBus": {
+      "total": 4,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "事件总线",
+          "status": "fail",
+          "message": "无法导入 lib.core.eventbus.core: No module named 'lib'"
+        },
+        {
+          "name": "发布功能",
+          "status": "fail",
+          "message": "无法导入 lib.core.eventbus.core: No module named 'lib'"
+        },
+        {
+          "name": "订阅功能",
+          "status": "fail",
+          "message": "无法导入 lib.core.eventbus.core: No module named 'lib'"
+        },
+        {
+          "name": "条件引擎",
+          "status": "fail",
+          "message": "无法导入 lib.core.eventbus.condition_engine: No module named 'lib'"
+        }
+      ]
+    },
+    "Core.Genome": {
+      "total": 4,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "基因组管理器",
+          "status": "fail",
+          "message": "无法导入 lib.core.genome.manager: No module named 'lib'"
+        },
+        {
+          "name": "知识图谱",
+          "status": "fail",
+          "message": "无法导入 lib.core.genome.knowledge_graph: No module named 'lib'"
+        },
+        {
+          "name": "语义搜索",
+          "status": "fail",
+          "message": "无法导入 lib.core.genome.semantic_search: No module named 'lib'"
+        },
+        {
+          "name": "版本管理器",
+          "status": "fail",
+          "message": "无法导入 lib.core.genome.version_manager: No module named 'lib'"
+        }
+      ]
+    },
+    "Core.Strategy": {
+      "total": 3,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "策略注册表",
+          "status": "fail",
+          "message": "无法导入 lib.core.strategy.registry: No module named 'lib'"
+        },
+        {
+          "name": "策略评估器",
+          "status": "fail",
+          "message": "无法导入 lib.core.strategy.evaluator: No module named 'lib'"
+        },
+        {
+          "name": "策略切换器",
+          "status": "fail",
+          "message": "无法导入 lib.core.strategy.switcher: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer1.HealthCheck": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "综合健康监控",
+          "status": "fail",
+          "message": "无法导入 lib.layer1.health_check: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer1.SystemMon": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "系统监控",
+          "status": "fail",
+          "message": "无法导入 lib.layer1.system_mon: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer1.DiskMon": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "磁盘扫描调度器",
+          "status": "fail",
+          "message": "无法导入 lib.layer1.disk_mon: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer1.ProcessMon": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "进程扫描调度器",
+          "status": "fail",
+          "message": "无法导入 lib.layer1.process_mon: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer1.AgentMon": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "Agent修复引擎",
+          "status": "fail",
+          "message": "无法导入 lib.layer1.agent_mon: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer1.GatewayMon": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "网关修复引擎",
+          "status": "fail",
+          "message": "无法导入 lib.layer1.gateway_mon: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer1.ServiceMon": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "服务修复引擎",
+          "status": "fail",
+          "message": "无法导入 lib.layer1.service_mon: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer2.SelfRepair": {
+      "total": 2,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "自愈引擎",
+          "status": "fail",
+          "message": "无法导入 lib.layer2.self_repair: No module named 'lib'"
+        },
+        {
+          "name": "自愈模块",
+          "status": "fail",
+          "message": "无法导入 lib.layer2.self_healing: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer2.Discovery": {
+      "total": 2,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "能力发现引擎",
+          "status": "fail",
+          "message": "无法导入 lib.layer2.discovery: No module named 'lib'"
+        },
+        {
+          "name": "发现报告",
+          "status": "fail",
+          "message": "无法导入 lib.layer2.discovery: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer2.Condition": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "条件引擎",
+          "status": "fail",
+          "message": "无法导入 lib.layer2.condition: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer2.MLEngine": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "机器学习引擎",
+          "status": "fail",
+          "message": "无法导入 lib.layer2.ml_engine: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer3.TaskMarket": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "任务市场",
+          "status": "fail",
+          "message": "无法导入 lib.layer3.task_market: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer3.DAG": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "DAG调度器",
+          "status": "fail",
+          "message": "无法导入 lib.layer3.dag: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer3.TaskCoordinator": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "节点协调器",
+          "status": "fail",
+          "message": "无法导入 lib.layer3.task_coordinator: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer3.n8n": {
+      "total": 0,
+      "pass": 0,
+      "checks": []
+    },
+    "Layer4.NodeRegistry": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "节点注册表",
+          "status": "fail",
+          "message": "无法导入 lib.layer4.node_registry: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer4.TrustManager": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "信任管理器",
+          "status": "fail",
+          "message": "无法导入 lib.layer4.trust_manager: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer4.FailureDetector": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "故障检测器",
+          "status": "fail",
+          "message": "无法导入 lib.layer4.failure_detector: No module named 'lib'"
+        }
+      ]
+    },
+    "Layer4.Swarm": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "集群节点注册",
+          "status": "fail",
+          "message": "无法导入 lib.layer4.swarm: No module named 'lib'"
+        }
+      ]
+    },
+    "Bridge.Hermes": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "Hermes事件类型",
+          "status": "fail",
+          "message": "无法导入 lib.bridge.hermes.events: No module named 'lib'"
+        }
+      ]
+    },
+    "Bridge.MemOS": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "MemOS桥接",
+          "status": "fail",
+          "message": "无法导入 lib.bridge.persistence.memos_bridge: No module named 'lib'"
+        }
+      ]
+    },
+    "Bridge.Obsidian": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "Obsidian桥接",
+          "status": "fail",
+          "message": "无法导入 lib.bridge.persistence.obsidian_bridge: No module named 'lib'"
+        }
+      ]
+    },
+    "Bridge.n8n": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "n8n客户端",
+          "status": "fail",
+          "message": "无法导入 lib.bridge.external.n8n_client: No module named 'lib'"
+        }
+      ]
+    },
+    "External.OpenClaw": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "OpenClaw CLI",
+          "status": "warn",
+          "message": "OpenClaw 未安装（可选依赖）"
+        }
+      ]
+    },
+    "External.MemOS": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "MemOS 目录",
+          "status": "warn",
+          "message": "数据目录不存在"
+        }
+      ]
+    },
+    "External.n8n": {
+      "total": 1,
+      "pass": 1,
+      "checks": [
+        {
+          "name": "n8n 服务",
+          "status": "pass",
+          "message": "服务在线"
+        }
+      ]
+    },
+    "External.Obsidian": {
+      "total": 1,
+      "pass": 0,
+      "checks": [
+        {
+          "name": "Obsidian 目录",
+          "status": "warn",
+          "message": "配置目录不存在"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "total": 39,
+    "pass": 1,
+    "warn": 3,
+    "fail": 35,
+    "score": 2.564102564102564
+  }
+}

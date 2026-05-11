@@ -1,124 +1,124 @@
-{
-  "name": "ClawShell",
-  "version": "1.0.0",
-  "description": "ClawShell v1.0 - 自感知自适应自组织AI Agent编排系统",
-  "build_date": "2026-04-30",
-  "架构": {
-    "自感知层": "lib/layer1 - 系统健康监控、磁盘/进程/网关/服务监控",
-    "自适应层": "lib/layer2 - 自修复、发现、条件引擎、策略选择、状态收集、分析、响应",
-    "自组织层": "lib/layer3 - 任务组织、DAG编排、任务市场、调度、N8N集成、上下文管理",
-    "集群层": "lib/layer4 - Swarm管理、信任评估、生态系统、协议",
-    "核心基础设施": "lib/core - EventBus事件总线、Genome知识传承、Strategy策略库",
-    "Bridge接口": "lib/bridge - Hermes协同、持久层、外部工具"
-  },
-  "source_mapping": {
-    "~/.real/eventbus/": "lib/core/eventbus/",
-    "~/.real/genome/": "lib/core/genome/",
-    "~/.real/strategies/": "lib/core/strategy/",
-    "~/.real/adaptor/": "lib/layer2/",
-    "~/.real/organizer/": "lib/layer3/",
-    "~/.real/swarm/": "lib/layer4/",
-    "~/.real/external/": "lib/bridge/external/",
-    "~/.real/workspace/shared/hermes_bridge/": "lib/bridge/hermes/",
-    "~/.real/clawshell/": "覆盖旧版v0.9",
-    "~/.real/hooks/": "scripts/hooks/",
-    "~/.real/scripts/": "scripts/",
-    "~/.real/workspace/shared/scripts/": "scripts/",
-    "~/n8n/scripts/": "scripts/n8n/"
-  },
-  "capabilities": {
-    "eventbus": [
-      "发布/订阅",
-      "优先级队列",
-      "死信队列",
-      "条件引擎",
-      "事件追踪",
-      "指标聚合"
-    ],
-    "genome": [
-      "知识图谱",
-      "语义搜索",
-      "版本管理",
-      "质量评估",
-      "模式挖掘",
-      "IQ评估"
-    ],
-    "strategy": [
-      "策略评估",
-      "策略切换",
-      "策略注册",
-      "多策略支持"
-    ],
-    "layer1": [
-      "健康检查",
-      "系统监控",
-      "磁盘监控",
-      "进程监控",
-      "Agent监控",
-      "网关监控",
-      "服务监控"
-    ],
-    "layer2": [
-      "自适应调优",
-      "自修复",
-      "市场发现",
-      "ML引擎",
-      "紧急响应",
-      "状态收集",
-      "分析响应"
-    ],
-    "layer3": [
-      "DAG编排",
-      "任务市场",
-      "任务注册",
-      "任务协调",
-      "调度器",
-      "N8N集成",
-      "上下文管理"
-    ],
-    "layer4": [
-      "Swarm集群",
-      "信任评估",
-      "生态管理",
-      "协议",
-      "节点发现",
-      "信任撤销"
-    ],
-    "hermes_bridge": [
-      "Hermes事件消费",
-      "Hermes洞察同步",
-      "场景集成"
-    ]
-  },
-  "integration": {
-    "n8n": [
-      "工作流触发",
-      "Webhook接收",
-      "消息队列",
-      "定时任务"
-    ],
-    "obsidian": [
-      "双向同步",
-      "图谱构建",
-      "链接发现",
-      "语义分析"
-    ],
-    "memOS": [
-      "记忆同步",
-      "洞察消费",
-      "知识图谱更新"
-    ],
-    "外部工具": [
-      "Aliyun ECS",
-      "DingTalk",
-      "Wiki",
-      "News"
-    ]
-  },
-  "cli": {
-    "bin/clawshell": "主入口CLI",
-    "bin/clawsync": "Hermes同步脚本"
-  },
-  "clawshell_version": "1.0.0",
-  "manifest_version": "1.0"
-}
+     1|{
+     2|  "name": "ClawShell",
+     3|  "version": "1.1.0",
+     4|  "description": "ClawShell v1.0 - 自感知自适应自组织AI Agent编排系统",
+     5|  "build_date": "2026-04-30",
+     6|  "架构": {
+     7|    "自感知层": "lib/layer1 - 系统健康监控、磁盘/进程/网关/服务监控",
+     8|    "自适应层": "lib/layer2 - 自修复、发现、条件引擎、策略选择、状态收集、分析、响应",
+     9|    "自组织层": "lib/layer3 - 任务组织、DAG编排、任务市场、调度、N8N集成、上下文管理",
+    10|    "集群层": "lib/layer4 - Swarm管理、信任评估、生态系统、协议",
+    11|    "核心基础设施": "lib/core - EventBus事件总线、Genome知识传承、Strategy策略库",
+    12|    "Bridge接口": "lib/bridge - Hermes协同、持久层、外部工具"
+    13|  },
+    14|  "source_mapping": {
+    15|    "~/.real/eventbus/": "lib/core/eventbus/",
+    16|    "~/.real/genome/": "lib/core/genome/",
+    17|    "~/.real/strategies/": "lib/core/strategy/",
+    18|    "~/.real/adaptor/": "lib/layer2/",
+    19|    "~/.real/organizer/": "lib/layer3/",
+    20|    "~/.real/swarm/": "lib/layer4/",
+    21|    "~/.real/external/": "lib/bridge/external/",
+    22|    "~/.real/workspace/shared/hermes_bridge/": "lib/bridge/hermes/",
+    23|    "~/.real/clawshell/": "覆盖旧版v0.9",
+    24|    "~/.real/hooks/": "scripts/hooks/",
+    25|    "~/.real/scripts/": "scripts/",
+    26|    "~/.real/workspace/shared/scripts/": "scripts/",
+    27|    "~/n8n/scripts/": "scripts/n8n/"
+    28|  },
+    29|  "capabilities": {
+    30|    "eventbus": [
+    31|      "发布/订阅",
+    32|      "优先级队列",
+    33|      "死信队列",
+    34|      "条件引擎",
+    35|      "事件追踪",
+    36|      "指标聚合"
+    37|    ],
+    38|    "genome": [
+    39|      "知识图谱",
+    40|      "语义搜索",
+    41|      "版本管理",
+    42|      "质量评估",
+    43|      "模式挖掘",
+    44|      "IQ评估"
+    45|    ],
+    46|    "strategy": [
+    47|      "策略评估",
+    48|      "策略切换",
+    49|      "策略注册",
+    50|      "多策略支持"
+    51|    ],
+    52|    "layer1": [
+    53|      "健康检查",
+    54|      "系统监控",
+    55|      "磁盘监控",
+    56|      "进程监控",
+    57|      "Agent监控",
+    58|      "网关监控",
+    59|      "服务监控"
+    60|    ],
+    61|    "layer2": [
+    62|      "自适应调优",
+    63|      "自修复",
+    64|      "市场发现",
+    65|      "ML引擎",
+    66|      "紧急响应",
+    67|      "状态收集",
+    68|      "分析响应"
+    69|    ],
+    70|    "layer3": [
+    71|      "DAG编排",
+    72|      "任务市场",
+    73|      "任务注册",
+    74|      "任务协调",
+    75|      "调度器",
+    76|      "N8N集成",
+    77|      "上下文管理"
+    78|    ],
+    79|    "layer4": [
+    80|      "Swarm集群",
+    81|      "信任评估",
+    82|      "生态管理",
+    83|      "协议",
+    84|      "节点发现",
+    85|      "信任撤销"
+    86|    ],
+    87|    "hermes_bridge": [
+    88|      "Hermes事件消费",
+    89|      "Hermes洞察同步",
+    90|      "场景集成"
+    91|    ]
+    92|  },
+    93|  "integration": {
+    94|    "n8n": [
+    95|      "工作流触发",
+    96|      "Webhook接收",
+    97|      "消息队列",
+    98|      "定时任务"
+    99|    ],
+   100|    "obsidian": [
+   101|      "双向同步",
+   102|      "图谱构建",
+   103|      "链接发现",
+   104|      "语义分析"
+   105|    ],
+   106|    "memOS": [
+   107|      "记忆同步",
+   108|      "洞察消费",
+   109|      "知识图谱更新"
+   110|    ],
+   111|    "外部工具": [
+   112|      "Aliyun ECS",
+   113|      "DingTalk",
+   114|      "Wiki",
+   115|      "News"
+   116|    ]
+   117|  },
+   118|  "cli": {
+   119|    "bin/clawshell": "主入口CLI",
+   120|    "bin/clawsync": "Hermes同步脚本"
+   121|  },
+   122|  "clawshell_version": "1.1.0",
+   123|  "manifest_version": "1.0"
+   124|}
