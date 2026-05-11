@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  clawshell-cloud:
+    build:
+      context: ./ClawShell Cloud
+      dockerfile: Dockerfile
+    container_name: clawshell-cloud
+    ports:
+      - "8000:8000"
+    environment:
+      - CLAWSHELL_HOST=0.0.0.0
+      - CLAWSHELL_PORT=8000
+      - CLAWSHELL_ENV=production
+      - CLAWSHELL_SECRET=${CLAWSHELL_SECRET:-clawshell-dev-secret}
+      - MEMOS_API_KEY=${MEMOS_API_KEY:-}
+    volumes:
+      - clawshell_data:/app/data
+      - ./ClawShell Cloud/config:/app/config:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: clawshell-n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=http://localhost:5678/
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: clawshell-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/cloud/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - clawshell-cloud
+    restart: unless-stopped
+
+volumes:
+  clawshell_data:
+  n8n_data:
