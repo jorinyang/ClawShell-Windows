@@ -9,5 +9,5 @@ ClawShell v1.0 - lib/ 核心库
     from lib.layer2 import SelfHealing
 """
 
-__version__ = "1.2.0"
+__version__ = "1.1.8"
 __all__ = ["core", "layer1", "layer2", "layer3", "layer4", "bridge", "detector", "utils"]
