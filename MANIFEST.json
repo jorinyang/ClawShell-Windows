@@ -1,124 +1,105 @@
-     1|{
-     2|  "name": "ClawShell",
-     3|  "version": "1.1.0",
-     4|  "description": "ClawShell v1.0 - 自感知自适应自组织AI Agent编排系统",
-     5|  "build_date": "2026-04-30",
-     6|  "架构": {
-     7|    "自感知层": "lib/layer1 - 系统健康监控、磁盘/进程/网关/服务监控",
-     8|    "自适应层": "lib/layer2 - 自修复、发现、条件引擎、策略选择、状态收集、分析、响应",
-     9|    "自组织层": "lib/layer3 - 任务组织、DAG编排、任务市场、调度、N8N集成、上下文管理",
-    10|    "集群层": "lib/layer4 - Swarm管理、信任评估、生态系统、协议",
-    11|    "核心基础设施": "lib/core - EventBus事件总线、Genome知识传承、Strategy策略库",
-    12|    "Bridge接口": "lib/bridge - Hermes协同、持久层、外部工具"
-    13|  },
-    14|  "source_mapping": {
-    15|    "~/.real/eventbus/": "lib/core/eventbus/",
-    16|    "~/.real/genome/": "lib/core/genome/",
-    17|    "~/.real/strategies/": "lib/core/strategy/",
-    18|    "~/.real/adaptor/": "lib/layer2/",
-    19|    "~/.real/organizer/": "lib/layer3/",
-    20|    "~/.real/swarm/": "lib/layer4/",
-    21|    "~/.real/external/": "lib/bridge/external/",
-    22|    "~/.real/workspace/shared/hermes_bridge/": "lib/bridge/hermes/",
-    23|    "~/.real/clawshell/": "覆盖旧版v0.9",
-    24|    "~/.real/hooks/": "scripts/hooks/",
-    25|    "~/.real/scripts/": "scripts/",
-    26|    "~/.real/workspace/shared/scripts/": "scripts/",
-    27|    "~/n8n/scripts/": "scripts/n8n/"
-    28|  },
-    29|  "capabilities": {
-    30|    "eventbus": [
-    31|      "发布/订阅",
-    32|      "优先级队列",
-    33|      "死信队列",
-    34|      "条件引擎",
-    35|      "事件追踪",
-    36|      "指标聚合"
-    37|    ],
-    38|    "genome": [
-    39|      "知识图谱",
-    40|      "语义搜索",
-    41|      "版本管理",
-    42|      "质量评估",
-    43|      "模式挖掘",
-    44|      "IQ评估"
-    45|    ],
-    46|    "strategy": [
-    47|      "策略评估",
-    48|      "策略切换",
-    49|      "策略注册",
-    50|      "多策略支持"
-    51|    ],
-    52|    "layer1": [
-    53|      "健康检查",
-    54|      "系统监控",
-    55|      "磁盘监控",
-    56|      "进程监控",
-    57|      "Agent监控",
-    58|      "网关监控",
-    59|      "服务监控"
-    60|    ],
-    61|    "layer2": [
-    62|      "自适应调优",
-    63|      "自修复",
-    64|      "市场发现",
-    65|      "ML引擎",
-    66|      "紧急响应",
-    67|      "状态收集",
-    68|      "分析响应"
-    69|    ],
-    70|    "layer3": [
-    71|      "DAG编排",
-    72|      "任务市场",
-    73|      "任务注册",
-    74|      "任务协调",
-    75|      "调度器",
-    76|      "N8N集成",
-    77|      "上下文管理"
-    78|    ],
-    79|    "layer4": [
-    80|      "Swarm集群",
-    81|      "信任评估",
-    82|      "生态管理",
-    83|      "协议",
-    84|      "节点发现",
-    85|      "信任撤销"
-    86|    ],
-    87|    "hermes_bridge": [
-    88|      "Hermes事件消费",
-    89|      "Hermes洞察同步",
-    90|      "场景集成"
-    91|    ]
-    92|  },
-    93|  "integration": {
-    94|    "n8n": [
-    95|      "工作流触发",
-    96|      "Webhook接收",
-    97|      "消息队列",
-    98|      "定时任务"
-    99|    ],
-   100|    "obsidian": [
-   101|      "双向同步",
-   102|      "图谱构建",
-   103|      "链接发现",
-   104|      "语义分析"
-   105|    ],
-   106|    "memOS": [
-   107|      "记忆同步",
-   108|      "洞察消费",
-   109|      "知识图谱更新"
-   110|    ],
-   111|    "外部工具": [
-   112|      "Aliyun ECS",
-   113|      "DingTalk",
-   114|      "Wiki",
-   115|      "News"
-   116|    ]
-   117|  },
-   118|  "cli": {
-   119|    "bin/clawshell": "主入口CLI",
-   120|    "bin/clawsync": "Hermes同步脚本"
-   121|  },
-   122|  "clawshell_version": "1.1.0",
-   123|  "manifest_version": "1.0"
-   124|}
+{
+  "name": "ClawShell",
+  "version": "1.1.0",
+  "description": "ClawShell 2.0 — 云边协同的多智能体外骨骼操作系统 (Cloud Hub + Edge Brain)",
+  "build_date": "2026-05-12",
+  "architecture": {
+    "cloud_hub": {
+      "description": "云枢 — 章鱼主脑，部署于阿里云ECS",
+      "responsibilities": ["架构规划", "深度思考", "洞察分析", "复盘总结", "整理优化", "成果广播", "终端管理", "版本控制"],
+      "components": {
+        "eventbus_cloud": "lib/core/eventbus_cloud.py — 事件持久化/去重/查询/广播",
+        "task_market_cloud": "lib/core/task_market_cloud.py — 任务状态机/优先级/匹配分发",
+        "swarm_cloud": "lib/core/swarm_cloud.py — 节点管理/心跳监控/负载均衡",
+        "scheduler_cloud": "lib/core/scheduler_cloud.py — Cron调度器",
+        "capability_registry": "lib/core/capability_registry.py — Edge注册/能力声明/主动调度",
+        "task_board": "lib/core/task_board.py — 跨Edge任务共享看板",
+        "skill_market": "lib/core/skill_market.py — 技能发布/发现/同步",
+        "n8n_bridge": "lib/services/n8n_bridge.py — N8N工作流集成",
+        "oss_vault": "lib/services/oss_vault.py — OSS双向同步引擎",
+        "vault_api": "lib/services/vault_api.py — Vault Cloud API"
+      }
+    },
+    "edge_brain": {
+      "description": "端脑 — 章鱼副脑，部署于各终端 (WSL/macOS/Linux)",
+      "responsibilities": ["自适应安装", "向云枢注册", "嗅探加载插件", "协同Agent调度", "离线自治", "自感知+自适应"],
+      "components": {
+        "edge_sync_daemon": "scripts/edge_sync_daemon.py — Edge↔Cloud同步守护进程",
+        "env_detector": "scripts/env_detector.py — 环境自检测 (WSL/Win/macOS/Linux)",
+        "ecosystem_installer": "scripts/ecosystem_installer.py — 10组件生态安装",
+        "config_wizard": "scripts/config_wizard.py — 交互式配置向导",
+        "openclaw_adapter": "scripts/openclaw_adapter.py — 悟空/OpenClaw适配",
+        "hermes_adapter": "scripts/hermes_adapter.py — Hermes适配",
+        "obsidian_adapter": "scripts/obsidian_adapter.py — Obsidian+OSS适配",
+        "install": "scripts/install.sh / install.ps1 — 一键安装"
+      }
+    },
+    "exoskeleton_layers": {
+      "description": "四层外骨骼 — 1.0核心能力，云边共享",
+      "layer1_自感知": "lib/layer1 — 健康检测/系统/磁盘/进程/Agent/网关/服务监控",
+      "layer2_自适应": "lib/layer2 — 自修复/发现/条件引擎/策略选择/状态收集/分析/响应",
+      "layer3_自组织": "lib/layer3 — 任务组织/DAG编排/任务市场/调度/N8N集成/上下文管理",
+      "layer4_集群": "lib/layer4 — Swarm管理/信任评估/生态系统/协议",
+      "core_基础设施": "lib/core — EventBus事件总线/Genome知识传承/Strategy策略库",
+      "bridge_接口": "lib/bridge — Hermes协同/持久层/外部工具"
+    }
+  },
+  "source_mapping": {
+    "cloud/": "lib/core/*_cloud.py + lib/services/ — 云枢引擎",
+    "edge/": "scripts/*.py — 端脑组件",
+    "lib/": "lib/ — 共享外骨骼层",
+    "deploy/cloud/": "deploy/cloud/ — 云部署配置 (Terraform/Docker/Nginx)"
+  },
+  "capabilities": {
+    "cloud": [
+      "事件持久化与广播",
+      "任务状态机调度",
+      "多节点集群管理",
+      "技能市场发布发现",
+      "Edge注册与能力调度",
+      "N8N工作流集成",
+      "OSS Vault同步",
+      "Cron定时调度"
+    ],
+    "edge": [
+      "环境自检测",
+      "云枢注册与心跳",
+      "离线队列容灾",
+      "健康上报",
+      "任务拉取与认领",
+      "技能搜索与安装",
+      "自修复系统",
+      "多Agent协同"
+    ],
+    "exoskeleton": [
+      "自感知 — 7种监控器",
+      "自适应 — 10+组件",
+      "自组织 — DAG+TaskMarket+Scheduler",
+      "集群层 — Swarm+Trust+Ecology",
+      "Hermes双脑协同",
+      "EventBus事件总线",
+      "Genome知识传承",
+      "Strategy策略库"
+    ]
+  },
+  "integration": {
+    "memOS_Cloud": "云端记忆同步",
+    "memPalace": "本地语义记忆 (仅本地)",
+    "obsidian_oss": "Obsidian知识库 + OSS云存储",
+    "n8n": "工作流自动化编排",
+    "mcp_bridge": "JSON-RPC EventBus桥接",
+    "github": "版本控制与CI/CD"
+  },
+  "deployment": {
+    "cloud": "阿里云ECS + OSS + Terraform/Docker",
+    "edge": "curl one-liner → install.sh",
+    "cloud_url": "https://cloud.clawshell.online",
+    "fallback": "本地独立运行，云枢离线不阻塞"
+  },
+  "memory_boundary": {
+    "local_only": ["MemPalace (SQLite+ChromaDB)", "MemOS Local"],
+    "cloud_sync": ["MemOS Cloud (memos.memtensor.cn)", "OSS Vault"]
+  },
+  "clawshell_version": "1.1.0",
+  "manifest_version": "2.0"
+}
